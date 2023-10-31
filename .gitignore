@@ -19,9 +19,9 @@
 # misc
 .DS_Store
 *.pem
-fha-app-description.md
-file-information.txt
-order-of-operations.md
+descript.md
+file-info.txt
+update-order.md
 
 # debug
 npm-debug.log*

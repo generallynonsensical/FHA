@@ -20,7 +20,7 @@
 .DS_Store
 *.pem
 descript.md
-file-info.txt
+layout.txt
 update-order.md
 
 # debug

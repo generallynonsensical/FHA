@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Formal Hazard Assessment Web App
 
 ## Table of Contents
@@ -87,3 +88,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Author
 
 generallynonsensical (W.Roberts)
+=======
+# FHA
+Formal Hazard Assessment Web App
+>>>>>>> 6b3ed017e31ec464df7bf078517c54ec35a61422

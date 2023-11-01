@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const HazardAccordion: React.FC = () => {
+const HazardInfoAccordion: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -65,4 +65,4 @@ const HazardAccordion: React.FC = () => {
   );
 };
 
-export default HazardAccordion;
+export default HazardInfoAccordion;

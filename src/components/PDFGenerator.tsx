@@ -1,17 +1,22 @@
-// src/components/SaveAsPDF.tsx
+// src/components/PDFGenerator.tsx
 
 import React from 'react';
 
-interface SaveAsPDFProps {
+interface PDFGeneratorProps {
   onSave: () => void;
 }
 
-const SaveAsPDF: React.FC<SaveAsPDFProps> = ({ onSave }) => {
+const PDFGenerator: React.FC<PDFGeneratorProps> = ({ onSave }) => {
   return (
-    <div className="save-as-pdf">
-      <button onClick={onSave}>Save as PDF</button>
+    <div className="save-as-pdf flex justify-left items-left mt-8">
+      <button 
+        onClick={onSave} 
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Save as PDF
+      </button>
     </div>
   );
 };
 
-export default SaveAsPDF;
+export default PDFGenerator;

@@ -19,9 +19,7 @@
 # misc
 .DS_Store
 *.pem
-descript.md
-layout.txt
-update-order.md
+
 
 # debug
 npm-debug.log*
@@ -37,3 +35,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# misc files
+descript.md
+layout.txt
+update-order.md
+last.txt

@@ -9,9 +9,19 @@ interface UndoRedoButtonsProps {
 
 const UndoRedoButtons: React.FC<UndoRedoButtonsProps> = ({ onUndo, onRedo }) => {
   return (
-    <div className="undo-redo-buttons">
-      <button onClick={onUndo}>Undo</button>
-      <button onClick={onRedo}>Redo</button>
+    <div className="flex space-x-4">
+      <button 
+        onClick={onUndo} 
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Undo
+      </button>
+      <button 
+        onClick={onRedo} 
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Redo
+      </button>
     </div>
   );
 };

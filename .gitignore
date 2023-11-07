@@ -20,6 +20,8 @@
 .DS_Store
 *.pem
 /.vscode*
+/src/services/data
+/src/source
 
 
 # debug
@@ -44,3 +46,4 @@ update-order.md
 last.txt
 TODO.txt
 .gitignore
+howitworks.txt

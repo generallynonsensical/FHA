@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
     "@nextui-org/react": "^2.2.9",
     "@react-pdf/renderer": "^3.1.14",
     "next": "14.0.1",

@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Disclosure } from '@headlessui/react';
+import {ChevronDownIcon} from '@heroicons/react/24/outline'
 
 const GeneralInfoAccordion: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
-
   return (
     <div className="bg-white p-4 rounded-lg shadow-md w-full">
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
-        className="flex justify-between items-center w-full text-gray-900 text-lg font-semibold mb-2 bg-gray-200 p-2 rounded-lg"
-      >
-        General Information
-        <span>{isOpen ? '-' : '+'}</span>
-      </button>
-      {isOpen && (
-        <form>
+      <Disclosure>
+        {({ open }) => (
+          <>
+            <Disclosure.Button className="flex justify-between items-center w-full text-gray-900 text-lg font-semibold mb-2 bg-gray-200 p-2 rounded-lg">
+              General Information
+              <ChevronDownIcon 
+                className={`w-5 h-5 ${open ? 'transform rotate-180' : ''}`}
+              />
+            </Disclosure.Button>
+            <Disclosure.Panel>
+            <form>
           <div className="mb-4">
             <label htmlFor="inputGeneralName" className="block text-sm font-medium text-gray-700">Created By</label>
             <input type="text" id="inputGeneralName" className="mt-1 p-2 w-full rounded-md border" />
@@ -34,9 +36,13 @@ const GeneralInfoAccordion: React.FC = () => {
             Submit Information
           </button>
         </form>
-      )}
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
     </div>
   );
 };
 
 export default GeneralInfoAccordion;
+

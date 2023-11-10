@@ -25,23 +25,3 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
-.app-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.left-section,
-.right-section {
-  flex: 1;
-  padding: 1rem;
-}
-
-.left-section {
-  border-right: 1px solid #ccc;
-}
-
-.right-section {
-  border-left: 1px solid #ccc;
-}

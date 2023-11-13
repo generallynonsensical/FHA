@@ -10,7 +10,7 @@ const AccordionContainer: React.FC = () => {
   // Your state management and logic will go here
 
   return (
-    <div className="accordion-container w-1/4">
+    <div className="accordion-container">
       <GeneralInfoAccordion />
       <TaskInfoAccordion />
       <HazardInfoAccordion />

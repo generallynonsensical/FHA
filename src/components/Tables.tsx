@@ -7,7 +7,7 @@ const Tables: React.FC = () => {
     <div className="tables-container space-y-8">
       {/* General Table */}
       <div className="general-table">
-        <table className="min-w-full bg-white border border-gray-300">
+        <table className="bg-white border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
               <th className="text-left py-3 px-4">Company Name</th>
@@ -33,7 +33,7 @@ const Tables: React.FC = () => {
 
       {/* Evaluation Table */}
       <div className="evaluation-table">
-        <table className="min-w-full bg-white border border-gray-300">
+        <table className="bg-white border border-gray-300">
           <thead className="bg-gray-100">
             <tr>
               <th className="py-3 px-4">Task ID</th>

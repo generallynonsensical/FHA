@@ -4,11 +4,11 @@ import {ChevronDownIcon} from '@heroicons/react/24/outline'
 
 const HazardInfoAccordion: React.FC = () => {
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md w-full mt-4">
+    <div className="bg-white p-4 rounded-lg shadow-md mt-4">
       <Disclosure>
         {({ open }) => (
           <>
-            <Disclosure.Button className="flex justify-between items-center w-full text-gray-900 text-lg font-semibold mb-2 bg-gray-200 p-2 rounded-lg">
+            <Disclosure.Button className="flex justify-between items-center text-gray-900 text-lg font-semibold mb-2 bg-gray-200 p-2 rounded-lg">
               Hazard Information
               <ChevronDownIcon 
                 className={`w-5 h-5 ${open ? 'transform rotate-180' : ''}`}
@@ -18,11 +18,11 @@ const HazardInfoAccordion: React.FC = () => {
             <form>
           <div className="mb-4">
             <label htmlFor="inputHazardName" className="block text-sm font-medium text-gray-700">Hazard Name</label>
-            <input type="text" id="inputHazardName" className="mt-1 p-2 w-full rounded-md border" />
+            <input type="text" id="inputHazardName" className="mt-1 p-2 rounded-md border" />
           </div>
           <div className="mb-4">
             <label htmlFor="inputHazardType" className="block text-sm font-medium text-gray-700">Hazard Type</label>
-            <select id="inputHazardType" className="mt-1 p-2 w-full rounded-md border">
+            <select id="inputHazardType" className="mt-1 p-2 rounded-md border">
               <option>Health</option>
               <option>Safety</option>
             </select>

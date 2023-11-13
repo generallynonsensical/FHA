@@ -16,7 +16,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ isOpen, message, 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-4 rounded-lg w-1/3">
+      <div className="bg-white p-4 rounded-lg">
         <h2 className="text-lg font-semibold mb-2">Confirm Action</h2>
         <p className="text-gray-700 mb-4">{message}</p>
         <div className="flex justify-end gap-2">

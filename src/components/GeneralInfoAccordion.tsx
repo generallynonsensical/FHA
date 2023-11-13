@@ -26,11 +26,11 @@ const GeneralInfoAccordion: React.FC = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="inputCompanyName" className="block text-sm font-medium text-gray-700">Company Name</label>
-            <input type="text" id="inputCompanyName" className="mt-1 p-2 w-full rounded-md border" />
+            <input type="text" id="inputCompanyName" className="mt-1 p-2 rounded-md border" />
           </div>
           <div className="mb-4">
             <label htmlFor="inputPositionEval" className="block text-sm font-medium text-gray-700">Position Being Evaluated</label>
-            <input type="text" id="inputPositionEval" className="mt-1 p-2 w-full rounded-md border" />
+            <input type="text" id="inputPositionEval" className="mt-1 p-2 rounded-md border" />
           </div>
           <button type="submit" className="bg-blue-500 text-white p-2 rounded-md mt-4">
             Submit Information

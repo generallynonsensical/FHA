@@ -88,8 +88,8 @@ const HazardModule: React.FC = (): ReactElement => {
     validateField('hazardName', event.target.value);
   };
 
-  const handleHazardTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const value = event.target.value as string; // Casting the value to string
+  const handleHazardTypeChange = (event: SelectChangeEvent<string>) => {
+    const value = event.target.value; // The value is already a string, no need to cast
     setHazardType(value);
     validateField('hazardType', value);
   };

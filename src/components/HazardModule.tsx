@@ -52,26 +52,28 @@ const HazardModule: React.FC = (): ReactElement => {
       case 'hazardType':
         isValid = value.trim() !== '';
         helperText = isValid ? '' : 'Hazard type is required';
-        setHazardTypeError(!isValid);
-        setHazardTypeHelperText(helperText);
+        setFieldErrors(prevErrors => ({
+          ...prevErrors,
+          hazardType: { error: !isValid, helperText: helperText },
+        }));
         break;
       case 'likelihood':
-        isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Likelihood is required';
-        setLikelihoodError(!isValid);
-        setLikelihoodHelperText(helperText);
+        setFieldErrors(prevErrors => ({
+          ...prevErrors,
+          likelihood: { error: !isValid, helperText: helperText },
+        }));
         break;
       case 'exposure':
-        isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Exposure is required';
-        setExposureError(!isValid);
-        setExposureHelperText(helperText);
+        setFieldErrors(prevErrors => ({
+          ...prevErrors,
+          exposure: { error: !isValid, helperText: helperText },
+        }));
         break;
       case 'consequence':
-        isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Consequence is required';
-        setConsequenceError(!isValid);
-        setConsequenceHelperText(helperText)
+        setFieldErrors(prevErrors => ({
+          ...prevErrors,
+          consequence: { error: !isValid, helperText: helperText },
+        }));
         break;
       
     }
@@ -146,64 +148,64 @@ return (
       margin="normal"
       value={hazardName}
       onChange={handleHazardNameChange}
-      error={hazardNameError}
-      helperText={hazardNameHelperText}
+      error={fieldErrors.hazardName.error}
+      helperText={fieldErrors.hazardName.helperText}
     />
 
-    <FormControl fullWidth margin="normal" error={hazardTypeError}>
+    <FormControl fullWidth margin="normal" error={fieldErrors.hazardType.error}>
       <Select
         id="inputHazardType"
         value={hazardType}
-        onChange={(e) => setHazardType(e.target.value)}
+        onChange={handleHazardTypeChange}
         displayEmpty
       >
         <MenuItem value="Please Select"><em>Please Select</em></MenuItem>
         <MenuItem value="Health">Health</MenuItem>
         <MenuItem value="Safety">Safety</MenuItem>
       </Select>
-      <Typography variant="caption" color="error">{hazardTypeHelperText}</Typography>
+      <Typography variant="caption" color="error">{fieldErrors.hazardType.helperText}</Typography>
     </FormControl>
 
-    <FormControl fullWidth margin="normal" error={likelihoodError}>
+    <FormControl fullWidth margin="normal" error={fieldErrors.likelihood.error}>
       <Typography>Likelihood of Occurrence</Typography>
       <ToggleButtonGroup
         value={likelihood}
         exclusive
-        onChange={(event, newLikelihood) => setLikelihood(newLikelihood)}
+        onChange={handleLikelihoodChange}
       >
         {[1, 2, 3, 4, 5].map((num) => (
           <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
         ))}
       </ToggleButtonGroup>
-      <Typography variant="caption" color="error">{likelihoodHelperText}</Typography>
+      <Typography variant="caption" color="error">{fieldErrors.likelihood.helperText}</Typography>
     </FormControl>
 
-    <FormControl fullWidth margin="normal" error={exposureError}>
+    <FormControl fullWidth margin="normal" error={fieldErrors.exposure.error}>
       <Typography>Exposure to Hazard</Typography>
       <ToggleButtonGroup
         value={exposure}
         exclusive
-        onChange={(event, newExposure) => setExposure(newExposure)}
+        onChange={handleExposureChange}
       >
         {[1, 2, 3, 4, 5].map((num) => (
           <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
         ))}
       </ToggleButtonGroup>
-      <Typography variant="caption" color="error">{exposureHelperText}</Typography>
+      <Typography variant="caption" color="error">{fieldErrors.exposure.helperText}</Typography>
     </FormControl>
 
-    <FormControl fullWidth margin="normal" error={consequenceError}>
+    <FormControl fullWidth margin="normal" error={fieldErrors.consequence.error}>
       <Typography>Consequence of Exposure</Typography>
       <ToggleButtonGroup
         value={consequence}
         exclusive
-        onChange={(event, newConsequence) => setConsequence(newConsequence)}
+        onChange={handleConsequenceChange}
       >
         {[1, 2, 3, 4, 5].map((num) => (
           <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
         ))}
       </ToggleButtonGroup>
-      <Typography variant="caption" color="error">{consequenceHelperText}</Typography>
+      <Typography variant="caption" color="error">{fieldErrors.consequence.helperText}</Typography>
     </FormControl>
   </form>
 </AccordionModule>

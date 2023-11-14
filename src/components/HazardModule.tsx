@@ -4,7 +4,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
-import FormControl from '@mui/material/FormControl'; 
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText'; // Add this line
 import AccordionModule from './AccordionModule';
 import Typography from '@mui/material/Typography';
 

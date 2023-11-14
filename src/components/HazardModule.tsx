@@ -37,7 +37,7 @@ const HazardModule: React.FC = (): ReactElement => {
   });
 
   // Validation functions
-  const validateField = (fieldName: string, value: string): boolean => {
+  const validateField = (fieldName: string, value: string, callback?: (isValid: boolean) => void): void => {
     let isValid = true;
     let helperText = '';
 
@@ -79,7 +79,16 @@ const HazardModule: React.FC = (): ReactElement => {
       
     }
   
-  return isValid;
+    setFieldErrors(prevErrors => {
+      const updatedErrors = {
+        ...prevErrors,
+        [fieldName]: { error: !isValid, helperText: helperText },
+      };
+      if (callback) {
+        callback(isValid);
+      }
+      return updatedErrors;
+    });
   };
   
 
@@ -123,13 +132,21 @@ const HazardModule: React.FC = (): ReactElement => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const isFormValid = Object.values(fieldErrors).every(fieldError => !fieldError.error);
-      
+    let isFormValid = true;
+  
+    // Validate all fields and update isFormValid accordingly
+    const fieldsToValidate = ['hazardName', 'hazardType', 'likelihood', 'exposure', 'consequence'];
+    fieldsToValidate.forEach((fieldName) => {
+      validateField(fieldName, fieldErrors[fieldName].helperText, (isValid) => {
+        isFormValid = isFormValid && isValid;
+      });
+    });
+  
+    // Check if all validations passed before submitting the form
     if (isFormValid) {
       performFormSubmission();
     }
-    
-};
+  };
 
 return (
   <AccordionModule

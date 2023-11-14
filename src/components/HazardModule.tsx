@@ -23,16 +23,17 @@ const HazardModule: React.FC = (): ReactElement => {
   const [expanded, setExpanded] = useState(false); 
 
 
-  const [hazardNameError, setHazardNameError] = useState(false);
-  const [hazardNameHelperText, setHazardNameHelperText] = useState('');
-  const [hazardTypeError, setHazardTypeError] = useState(false);
-  const [hazardTypeHelperText, setHazardTypeHelperText] = useState('');
-  const [likelihoodError, setLikelihoodError] = useState(false);
-  const [likelihoodHelperText, setLikelihoodHelperText] = useState('');
-  const [exposureError, setExposureError] = useState(false);
-  const [exposureHelperText, setExposureHelperText] = useState('');
-  const [consequenceError, setConsequenceError] = useState(false);
-  const [consequenceHelperText, setConsequenceHelperText] = useState('');
+  interface FieldErrors {
+    [key: string]: FieldError;
+  }
+
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({
+    hazardName: { error: false, helperText: '' },
+    hazardType: { error: false, helperText: '' },
+    likelihood: { error: false, helperText: '' },
+    exposure: { error: false, helperText: '' },
+    consequence: { error: false, helperText: '' },
+  });
 
   // Validation functions
   const validateField = (fieldName: string, value: string): boolean => {
@@ -43,8 +44,10 @@ const HazardModule: React.FC = (): ReactElement => {
       case 'hazardName':
         isValid = value.trim() !== '';
         helperText = isValid ? '' : 'Hazard name is required';
-        setHazardNameError(!isValid);
-        setHazardNameHelperText(helperText);
+        setFieldErrors(prevErrors => ({
+          ...prevErrors,
+          hazardName: { error: !isValid, helperText: helperText },
+        }));
         break;
       case 'hazardType':
         isValid = value.trim() !== '';
@@ -117,12 +120,7 @@ const HazardModule: React.FC = (): ReactElement => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const isFormValid = 
-      validateField('hazardName', hazardName) &&
-      validateField('hazardType', hazardType) &&
-      validateField('likelihood', likelihood) &&
-      validateField('exposure', exposure) &&
-      validateField('consequence', consequence)
+    const isFormValid = Object.values(fieldErrors).every(fieldError => !fieldError.error);
       
     if (isFormValid) {
       performFormSubmission();
@@ -137,13 +135,7 @@ return (
     buttonLabel="Submit Hazard"
     expanded={expanded}
     onChange={handleAccordionChange}
-    fieldErrors={{
-      hazardName: { error: hazardNameError, helperText: hazardNameHelperText },
-      hazardType: { error: hazardTypeError, helperText: hazardTypeHelperText },
-      likelihood: { error: likelihoodError, helperText: likelihoodHelperText},
-      exposure: { error: exposureError, helperText: exposureHelperText},
-      consequence: { error: consequenceError, helperText: consequenceHelperText}
-    }}
+    fieldErrors={fieldErrors}
     >
     <form onSubmit={handleSubmit}>
     <TextField

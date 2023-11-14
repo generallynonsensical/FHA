@@ -1,25 +1,23 @@
 // src/pages/index.tsx
 
 import React from 'react';
-import AccordionContainer from '../containers/AccordionContainer';
-import Tables from '../containers/TableContainer';
-import PDFGenerator from '../components/PDFGenerator';
-import UndoRedoButtons from '../components/UndoRedoButtons';
+import AccordionContainer from '../containers/InputModule';
+import Tables from '../containers/OutputModule';
+import PDFGenerator from '../components/PDFModule';
+import UndoRedoButtons from '../components/UndoRedoModule';
 
 const App: React.FC = () => {
   return (
-    <div className="flex">
-      <div className="p-2 border-r border-gray-300 w-2/10">
+    <div className="containers flex w-full">
+      <div className="p-1 border-r border-gray-300">
         <AccordionContainer />
-        <UndoRedoButtons onUndo={() => {}} onRedo={() => {}} />
       </div>
 
-      <div className="p-2 border-l border-gray-300 w-7/10">
+      <div className="p-1 border-l border-gray-300">
         <Tables />
-        <PDFGenerator onSave={() => {}} />
       </div>
     </div>
-  );
+      );
 };
 
 export default App;

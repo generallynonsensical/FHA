@@ -163,7 +163,7 @@ return (
         <MenuItem value="Health">Health</MenuItem>
         <MenuItem value="Safety">Safety</MenuItem>
       </Select>
-      <Typography variant="caption" color="error">{fieldErrors.hazardType.helperText}</Typography>
+      <FormHelperText>{fieldErrors.hazardType.helperText}</FormHelperText>
     </FormControl>
 
     <FormControl fullWidth margin="normal" error={fieldErrors.likelihood.error}>

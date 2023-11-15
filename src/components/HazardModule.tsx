@@ -1,19 +1,36 @@
-import React, { useState, ReactElement } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
+import AccordionModule from './AccordionModule';
 import TextField from '@mui/material/TextField';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText'; // Add this line
-import AccordionModule from './AccordionModule';
+import FormHelperText from '@mui/material/FormHelperText';
 import Typography from '@mui/material/Typography';
+
 
 interface FieldError {
   error: boolean;
   helperText: string;
 }
 
+const getFieldValue = (fieldName: string, state: any) => {
+  switch (fieldName) {
+    case 'hazardName':
+      return state.hazardName;
+    case 'hazardType':
+      return state.hazardType;
+    case 'likelihood':
+      return state.likelihood;
+    case 'exposure':
+      return state.exposure;
+    case 'consequence':
+      return state.consequence;
+    default:
+      return '';
+  }
+};
 
 const HazardModule: React.FC = (): ReactElement => {
   const [hazardName, setHazardName] = useState('');
@@ -21,8 +38,7 @@ const HazardModule: React.FC = (): ReactElement => {
   const [likelihood, setLikelihood] = useState('');
   const [exposure, setExposure] = useState('');
   const [consequence, setConsequence] = useState('');
-  const [expanded, setExpanded] = useState(false); 
-
+  const [expanded, setExpanded] = useState(false);
 
   interface FieldErrors {
     [key: string]: FieldError;
@@ -36,72 +52,57 @@ const HazardModule: React.FC = (): ReactElement => {
     consequence: { error: false, helperText: '' },
   });
 
-  // Validation functions
   const validateField = (fieldName: string, value: string, callback?: (isValid: boolean) => void): void => {
     let isValid = true;
     let helperText = '';
+
+    console.log(`Validating field: ${fieldName} with value: ${value}`);
 
     switch (fieldName) {
       case 'hazardName':
         isValid = value.trim() !== '';
         helperText = isValid ? '' : 'Hazard name is required';
-        setFieldErrors(prevErrors => ({
-          ...prevErrors,
-          hazardName: { error: !isValid, helperText: helperText },
-        }));
         break;
       case 'hazardType':
         isValid = value.trim() !== '';
         helperText = isValid ? '' : 'Hazard type is required';
-        setFieldErrors(prevErrors => ({
-          ...prevErrors,
-          hazardType: { error: !isValid, helperText: helperText },
-        }));
         break;
       case 'likelihood':
-        setFieldErrors(prevErrors => ({
-          ...prevErrors,
-          likelihood: { error: !isValid, helperText: helperText },
-        }));
+        isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Likelihood is required';
         break;
       case 'exposure':
-        setFieldErrors(prevErrors => ({
-          ...prevErrors,
-          exposure: { error: !isValid, helperText: helperText },
-        }));
+          isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Exposure is required';
         break;
       case 'consequence':
-        setFieldErrors(prevErrors => ({
-          ...prevErrors,
-          consequence: { error: !isValid, helperText: helperText },
-        }));
+        isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Consequence is required';
         break;
-      
     }
-  
-    setFieldErrors(prevErrors => {
-      const updatedErrors = {
-        ...prevErrors,
-        [fieldName]: { error: !isValid, helperText: helperText },
-      };
-      if (callback) {
-        callback(isValid);
-      }
-      return updatedErrors;
-    });
-  };
-  
 
-  // Change handlers
+    console.log(`Validation result for ${fieldName}:`, { error: !isValid, helperText });
+
+    setFieldErrors(prevErrors => ({
+      ...prevErrors,
+      [fieldName]: { error: !isValid, helperText: helperText },
+    }));
+
+    if (callback) {
+      callback(isValid);
+    }
+  };
+
   const handleHazardNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHazardName(event.target.value);
-    validateField('hazardName', event.target.value);
+    const newValue = event.target.value;
+    setHazardName(newValue);
+    validateField('hazardName', newValue);
   };
 
   const handleHazardTypeChange = (event: SelectChangeEvent<string>) => {
-    const value = event.target.value; // The value is already a string, no need to cast
-    setHazardType(value);
-    validateField('hazardType', value);
+    const newValue = event.target.value; 
+    setHazardType(newValue);
+    validateField('hazardType', newValue);
   };
 
   const handleLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newLikelihood: string) => {
@@ -121,32 +122,81 @@ const HazardModule: React.FC = (): ReactElement => {
     validateField('consequence', newConsequence);
   };
   
+  const resetForm = () => {
+    console.log("Resetting form");
+    setHazardName('');
+    setHazardType('');
+    setLikelihood('');
+    setExposure('');
+    setConsequence('');
 
-  const performFormSubmission = () => {
-  // Define form submission logic here
+  setFieldErrors({
+    hazardName: { error: false, helperText: '' },
+    hazardType: { error: false, helperText: '' },
+    likelihood: { error: false, helperText: '' },
+    exposure: { error: false, helperText: '' },
+    consequence: { error: false, helperText: '' },
+  });
+
+  setExpanded(false);
   };
 
+const performFormSubmission = () => {
+  console.log("Submitting form");
+  let isFormValid = true;
+
+  const fieldValues = {
+    hazardName,
+    hazardType,
+    likelihood,
+    exposure,
+    consequence
+  };
+
+  const fieldsToValidate = ['hazardName', 'hazardType', 'likelihood', 'exposure', 'consequence'];
+  fieldsToValidate.forEach((fieldName) => {
+    const fieldValue = getFieldValue(fieldName, { hazardName, hazardType, likelihood, exposure, consequence });
+    validateField(fieldName, fieldValue, (isValid) => {
+      isFormValid = isFormValid && isValid;
+      isFormValid = isFormValid && isValid;
+    });
+  });
+
+  if (isFormValid) {
+    // Form submission logic here...
+    // After successful submission, reset the form
+    resetForm();
+  }
+};
   const handleAccordionChange = () => {
     setExpanded(!expanded);
   };
 
+  useEffect(() => {
+    console.log("Field errors updated:", fieldErrors);
+  }, [fieldErrors]);
+
+  
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let isFormValid = true;
+    const state = { hazardName, hazardType, likelihood, exposure, consequence };
   
-    // Validate all fields and update isFormValid accordingly
     const fieldsToValidate = ['hazardName', 'hazardType', 'likelihood', 'exposure', 'consequence'];
     fieldsToValidate.forEach((fieldName) => {
-      validateField(fieldName, fieldErrors[fieldName].helperText, (isValid) => {
+      const fieldValue = getFieldValue(fieldName, state);
+      validateField(fieldName, fieldValue, (isValid) => {
         isFormValid = isFormValid && isValid;
       });
     });
   
-    // Check if all validations passed before submitting the form
     if (isFormValid) {
       performFormSubmission();
+     
     }
   };
+  
 
 return (
   <AccordionModule
@@ -168,6 +218,7 @@ return (
       onChange={handleHazardNameChange}
       error={fieldErrors.hazardName.error}
       helperText={fieldErrors.hazardName.helperText}
+      required
     />
 
     <FormControl fullWidth margin="normal" error={fieldErrors.hazardType.error}>

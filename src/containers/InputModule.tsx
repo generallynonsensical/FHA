@@ -9,7 +9,7 @@ const InputModule: React.FC = () => {
   // Your state management and logic will go here
 
   return (
-    <div className="accordion-container w-full">
+    <div className="accordion-container">
       <TaskModule />
       <HazardModule />
       <ControlModule />

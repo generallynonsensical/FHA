@@ -5,8 +5,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
+
 
 interface FieldError {
   error: boolean;
@@ -32,13 +31,8 @@ const AccordionModule: React.FC<AccordionModuleProps> = ({
         <Typography>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {Object.entries(fieldErrors).map(([fieldName, { error, helperText }]) => (
-          <FormControl key={fieldName} error={error} fullWidth>
-            {error && <FormHelperText>{helperText}</FormHelperText>}
-          </FormControl>
-        ))}
         {children}
-        <Button onClick={onSubmit} variant="contained" color="primary" sx={{ mt: 2 }}>
+        <Button onClick={onSubmit} variant="contained" color="primary" sx={{ mt: 4 }}>
           {buttonLabel}
         </Button>
       </AccordionDetails>

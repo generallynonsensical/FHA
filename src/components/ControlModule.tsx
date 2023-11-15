@@ -1,16 +1,35 @@
-import React, { useState, ReactElement } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import React, { useState, useEffect, ReactElement } from 'react';
+import AccordionModule from './AccordionModule';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+
+interface FieldError {
+  error: boolean;
+  helperText: string;
+}
+
+const getFieldValue = (fieldName: string, state: any) => {
+  switch (fieldName) {
+    case 'controlName':
+      return state.controlName;
+    case 'controlType':
+      return state.controlType;
+    case 'likelihood':
+      return state.likelihood;
+    case 'exposure':
+      return state.exposure;
+    case 'consequence':
+      return state.consequence;
+    default:
+      return '';
+  }
+};
 
 const ControlModule: React.FC = () => {
   const [controlName, setControlName] = useState('');
@@ -18,6 +37,163 @@ const ControlModule: React.FC = () => {
   const [likelihood, setLikelihood] = useState('');
   const [exposure, setExposure] = useState('');
   const [consequence, setConsequence] = useState('');
+  const [expanded, setExpanded] = useState(false);
+  
+  interface FieldErrors {
+    [key: string]: FieldError;
+  }
+
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({
+    controlName: { error: false, helperText: '' },
+    controlType: { error: false, helperText: '' },
+    likelihood: { error: false, helperText: '' },
+    exposure: { error: false, helperText: '' },
+    consequence: { error: false, helperText: '' },
+  });
+
+  const validateField = (fieldName: string, value: string, callback?: (isValid: boolean) => void): void => {
+    let isValid = true;
+    let helperText = '';
+
+    console.log(`Validating field: ${fieldName} with value: ${value}`);
+
+    switch (fieldName) {
+      case 'controlName':
+        isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Control name is required';
+        break;
+      case 'controlType':
+        isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Control type is required';
+        break;
+      case 'likelihood':
+        isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Likelihood is required';
+        break;
+      case 'exposure':
+          isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Exposure is required';
+        break;
+      case 'consequence':
+        isValid = value.trim() !== '';
+        helperText = isValid ? '' : 'Consequence is required';
+        break;
+    }
+
+    console.log(`Validation result for ${fieldName}:`, { error: !isValid, helperText });
+
+    setFieldErrors(prevErrors => ({
+      ...prevErrors,
+      [fieldName]: { error: !isValid, helperText: helperText },
+    }));
+
+    if (callback) {
+      callback(isValid);
+    }
+  };
+
+  const handleControlNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setControlName(newValue);
+    validateField('controlName', newValue);
+  };
+
+  const handleControlTypeChange = (event: SelectChangeEvent<string>) => {
+    const newValue = event.target.value; 
+    setControlType(newValue);
+    validateField('controlType', newValue);
+  };
+
+  const handleLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newLikelihood: string) => {
+    setLikelihood(newLikelihood);
+    validateField('likelihood', newLikelihood);
+  };
+
+
+  const handleExposureChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newExposure: string) => {
+    setExposure(newExposure);
+    validateField('exposure', newExposure);
+  };
+
+
+  const handleConsequenceChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newConsequence: string) => {
+    setConsequence(newConsequence);
+    validateField('consequence', newConsequence);
+  };
+
+  const resetForm = () => {
+    console.log("Resetting form");
+    setControlName('');
+    setControlType('');
+    setLikelihood('');
+    setExposure('');
+    setConsequence('');
+
+  setFieldErrors({
+    controlName: { error: false, helperText: '' },
+    controlType: { error: false, helperText: '' },
+    likelihood: { error: false, helperText: '' },
+    exposure: { error: false, helperText: '' },
+    consequence: { error: false, helperText: '' },
+  });
+
+  setExpanded(false);
+  };
+
+  const performFormSubmission = () => {
+    console.log("Submitting form");
+    let isFormValid = true;
+  
+    const fieldValues = {
+      controlName,
+      controlType,
+      likelihood,
+      exposure,
+      consequence
+    };
+  
+    const fieldsToValidate = ['controlName', 'controlType', 'likelihood', 'exposure', 'consequence'];
+    fieldsToValidate.forEach((fieldName) => {
+      const fieldValue = getFieldValue(fieldName, { controlName, controlType, likelihood, exposure, consequence });
+      validateField(fieldName, fieldValue, (isValid) => {
+        isFormValid = isFormValid && isValid;
+        isFormValid = isFormValid && isValid;
+      });
+    });
+  
+    if (isFormValid) {
+      // Form submission logic here...
+      // After successful submission, reset the form
+      resetForm();
+    }
+  };
+
+  const handleAccordionChange = () => {
+    setExpanded(!expanded);
+  };
+
+  useEffect(() => {
+    console.log("Field errors updated:", fieldErrors);
+  }, [fieldErrors]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    let isFormValid = true;
+    const state = { controlName, controlType, likelihood, exposure, consequence };
+  
+    const fieldsToValidate = ['controlName', 'controlType', 'likelihood', 'exposure', 'consequence'];
+    fieldsToValidate.forEach((fieldName) => {
+      const fieldValue = getFieldValue(fieldName, state);
+      validateField(fieldName, fieldValue, (isValid) => {
+        isFormValid = isFormValid && isValid;
+      });
+    });
+  
+    if (isFormValid) {
+      performFormSubmission();
+     
+    }
+  };
 
   const [controlNameError, setControlNameError] = useState(false);
   const [controlNameHelperText, setControlNameHelperText] = useState('');
@@ -93,123 +269,88 @@ const ControlModule: React.FC = () => {
     setControlType(event.target.value);
   };
 
-  const handleLikelihoodChange = (event: React.MouseEvent<HTMLElement>, newLikelihood: string) => {
-    setLikelihood(newLikelihood);
-  };
+ 
 
-  const handleExposureChange = (event: React.MouseEvent<HTMLElement>, newExposure: string) => {
-    setExposure(newExposure);
-  };
-
-  const handleConsequenceChange = (event: React.MouseEvent<HTMLElement>, newConsequence: string) => {
-    setConsequence(newConsequence);
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const isControlNameValid = validateControlName();
-    const isControlTypeValid = validateControlType();
-    const isLikelihoodValid = validateLikelihood();
-    const isExposureValid = validateExposure();
-    const isConsequenceValid = validateConsequence();
-
-    if (isControlNameValid && isControlTypeValid && isLikelihoodValid && isExposureValid && isConsequenceValid) {
-      // Proceed with form submission logic
-    }
-  };
-
-  return (
-    <div className="bg-white p-2 rounded-lg shadow-md w-full mt-2">
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel-control-content"
-          id="panel-control-header"
+return (
+  <AccordionModule
+    title="Control Information"
+    onSubmit={performFormSubmission} 
+    buttonLabel="Submit Control"
+    expanded={expanded}
+    onChange={handleAccordionChange}
+    fieldErrors={fieldErrors}
+  >
+    <form onSubmit={handleSubmit}>
+      <TextField
+        id="inputControlName"
+        label="Control Name"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={controlName}
+        onChange={handleControlNameChange}
+        error={fieldErrors.controlName.error}
+        helperText={fieldErrors.controlName.helperText}
+        required
+      />
+    
+      <FormControl fullWidth margin="normal" error={fieldErrors.controlType.error}>
+        <Select
+          id="inputControlType"
+          value={controlType}
+          onChange={handleControlTypeChange}
+          displayEmpty
         >
-          <Typography>Control Information</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              id="inputControlName"
-              label="Control Name"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={controlName}
-              onChange={handleChangeControlName}
-              error={controlNameError}
-              helperText={controlNameHelperText}
-            />
-            <FormControl fullWidth margin="normal" error={controlTypeError}>
-              <Select
-                id="inputControlType"
-                value={controlType}
-                onChange={handleChangeControlType}
-                displayEmpty
-              >
-                <MenuItem value=""><em>None</em></MenuItem>
-                <MenuItem value="Elimination">Elimination</MenuItem>
-                <MenuItem value="Substitution">Substitution</MenuItem>
-                <MenuItem value="Engineering">Engineering</MenuItem>
-                <MenuItem value="Administrative">Administrative</MenuItem>
-                <MenuItem value="PPE">PPE</MenuItem>
-              </Select>
-              <Typography variant="caption" color="error">{controlTypeHelperText}</Typography>
-            </FormControl>
-            <FormControl fullWidth margin="normal" error={likelihoodError}>
-              <Typography>Likelihood of Occurrence</Typography>
-              <ToggleButtonGroup
-                value={likelihood}
-                exclusive
-                onChange={(event, newLikelihood) => setLikelihood(newLikelihood)}
-              >
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <ToggleButton key={num} value={String(num)}>
-                    {num}
-                  </ToggleButton>
-                ))}
-              </ToggleButtonGroup>
-              <Typography variant="caption" color="error">{likelihoodHelperText}</Typography>
-            </FormControl>
-            <FormControl fullWidth margin="normal" error={exposureError}>
-              <Typography>Exposure to Hazard</Typography>
-              <ToggleButtonGroup
-                value={exposure}
-                exclusive
-                onChange={(event, newExposure) => setExposure(newExposure)}
-              >
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <ToggleButton key={num} value={String(num)}>
-                    {num}
-                  </ToggleButton>
-                ))}
-              </ToggleButtonGroup>
-              <Typography variant="caption" color="error">{exposureHelperText}</Typography>
-            </FormControl>
-            <FormControl fullWidth margin="normal" error={consequenceError}>
-              <Typography>Consequence of Exposure</Typography>
-              <ToggleButtonGroup
-                value={consequence}
-                exclusive
-                onChange={(event, newConsequence) => setConsequence(newConsequence)}
-              >
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <ToggleButton key={num} value={String(num)}>
-                    {num}
-                  </ToggleButton>
-                ))}
-              </ToggleButtonGroup>
-              <Typography variant="caption" color="error">{consequenceHelperText}</Typography>
-            </FormControl>
-            <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-              Submit Control
-            </Button>
-          </form>
-        </AccordionDetails>
-      </Accordion>
-    </div>
-  );
-};
+        <MenuItem value="Please Select"><em>Please Select</em></MenuItem>
+        <MenuItem value="Health">Health</MenuItem>
+            <MenuItem value="Safety">Safety</MenuItem>
+          </Select>
+      </FormControl>
+
+      <FormControl fullWidth margin="normal" error={fieldErrors.likelihood.error}>
+      <Typography>Likelihood of Occurrence</Typography>
+      <ToggleButtonGroup
+        value={likelihood}
+        exclusive
+        onChange={handleLikelihoodChange}
+      >
+        {[1, 2, 3, 4, 5].map((num) => (
+          <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
+        ))}
+      </ToggleButtonGroup>
+      <Typography variant="caption" color="error">{fieldErrors.likelihood.helperText}</Typography>
+    </FormControl>
+      
+
+      <FormControl fullWidth margin="normal" error={fieldErrors.exposure.error}>
+        <Typography>Exposure to Control</Typography>
+        <ToggleButtonGroup
+          value={exposure}
+          exclusive
+          onChange={handleExposureChange}
+        >
+          {[1, 2, 3, 4, 5].map((num) => (
+            <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+        <Typography variant="caption" color="error">{fieldErrors.exposure.helperText}</Typography>
+      </FormControl>
+    
+      <FormControl fullWidth margin="normal" error={fieldErrors.consequence.error}>
+        <Typography>Consequence of Exposure</Typography>
+        <ToggleButtonGroup
+          value={consequence}
+          exclusive
+          onChange={handleConsequenceChange}
+        >
+          {[1, 2, 3, 4, 5].map((num) => (
+            <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+        <Typography variant="caption" color="error">{fieldErrors.consequence.helperText}</Typography>
+      </FormControl>
+    </form>
+  </AccordionModule>
+)};
 
 export default ControlModule;

@@ -1,61 +1,88 @@
-import React, { useState, ReactElement } from 'react';
-import TextField from '@mui/material/TextField';
+import React, { useState, useEffect, ReactElement } from 'react';
 import AccordionModule from './AccordionModule';
+import TextField from '@mui/material/TextField';
 
 interface FieldError {
   error: boolean;
   helperText: string;
 }
 
-const TaskModule: React.FC = (): ReactElement => {
-  const [taskName, setTaskName] = useState('');
-  const [expanded, setExpanded] = useState(false); 
-  const [taskError, setTaskError] = useState<FieldError>({ error: false, helperText: '' });
+interface FieldErrors {
+  [key: string]: FieldError;
+}
 
-  const validateTaskName = () => {
-    if (taskName.trim() === '') {
-      setTaskError({ error: true, helperText: 'Task Name is required' });
-    } else {
-      setTaskError({ error: false, helperText: '' });
-    }
+// Define the props type for TaskModule
+interface TaskModuleProps {
+    expanded: boolean;
+    onToggle: () => void;
+    onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
+const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit }): ReactElement => {
+  const [taskName, setTaskName] = useState('');
+  
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({
+    taskName: { error: false, helperText: '' },
+  });
+
+  const validateField = (value: string): boolean => {
+    const isValid = value.trim() !== '';
+    const helperText = isValid ? '' : '*Required';
+    
+    setFieldErrors({
+      taskName: { error: !isValid, helperText: helperText },
+    });
+
+    return isValid;
   };
 
   const handleTaskNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskName(event.target.value);
-    validateTaskName(); 
+    const newValue = event.target.value;
+    setTaskName(newValue);
+    validateField(newValue);
   };
 
-  const handleSubmit = () => {  
-    validateTaskName();
-    if (!taskError.error) {
-      console.log("Submitted:", taskName);
+  const resetForm = () => {
+    setTaskName('');
+    setFieldErrors({ taskName: { error: false, helperText: '' } });
+    onToggle()
+  };
+
+  const performFormSubmission = () => {
+    const isTaskNameValid = validateField(taskName);
+
+    if (isTaskNameValid) {
+      console.log("Submitting form with Task Name:", taskName);
+      // Form submission logic specific to TaskModule here...
+      resetForm();
     }
   };
 
   const handleAccordionChange = () => {
-    setExpanded(!expanded);
+    onToggle(); // Replace setExpanded with onToggle
+  };
+
+  useEffect(() => {
+    console.log("Field errors updated:", fieldErrors);
+  }, [fieldErrors]);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    performFormSubmission();
   };
 
   return (
     <AccordionModule
       title="Task Information"
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit} // Use the onSubmit prop for form submission
       buttonLabel="Submit Task"
-      fieldErrors={{ taskName: taskError }}
-      expanded={expanded}
+      expanded={expanded} // Use the expanded prop
       onChange={handleAccordionChange}
+      fieldErrors={fieldErrors}
     >
-      <TextField
-        label="Task Name"
-        variant="outlined"
-        fullWidth
-        value={taskName}
-        onChange={handleTaskNameChange}
-        error={taskError.error}
-        helperText={taskError.helperText}
-      />
+      {/* Your form elements here */}
     </AccordionModule>
-  );
-};
+  )
+}
 
 export default TaskModule;

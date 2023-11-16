@@ -15,11 +15,11 @@ interface FieldError {
 interface AccordionModuleProps {
   title: string;
   children: ReactNode;
-  onSubmit: () => void;
   buttonLabel: string;
   fieldErrors: { [fieldName: string]: FieldError };
   expanded: boolean;
   onChange: () => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void; // Modify this line
 }
 
 const AccordionModule: React.FC<AccordionModuleProps> = ({
@@ -31,13 +31,14 @@ const AccordionModule: React.FC<AccordionModuleProps> = ({
         <Typography>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        {children}
-        <Button onClick={onSubmit} variant="contained" color="primary" sx={{ mt: 4 }}>
-          {buttonLabel}
-        </Button>
+        <form onSubmit={onSubmit}> {/* Wrap in form */}
+          {children}
+          <Button type="submit" variant="contained" color="primary" sx={{ mt: 4 }}>
+            {buttonLabel}
+          </Button>
+        </form>
       </AccordionDetails>
     </Accordion>
   );
 };
-
 export default AccordionModule;

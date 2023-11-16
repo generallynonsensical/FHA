@@ -2,41 +2,42 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import AccordionModule from './AccordionModule';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
 
 interface FieldError {
   error: boolean;
   helperText: string;
 }
 
+
 const getFieldValue = (fieldName: string, state: any) => {
   switch (fieldName) {
     case 'controlName':
-      return state.controlName;
+      return state.controlName || '';
     case 'controlType':
-      return state.controlType;
-    case 'likelihood':
-      return state.likelihood;
-    case 'exposure':
-      return state.exposure;
-    case 'consequence':
-      return state.consequence;
+      return state.controlType || '';
+    case 'postLikelihood':
+      return state.postLikelihood || 0;
+    case 'postExposure':
+      return state.postExposure || 0;
+    case 'postConsequence':
+      return state.postConsequence || 0;
     default:
       return '';
   }
 };
 
+
+
 const ControlModule: React.FC = () => {
   const [controlName, setControlName] = useState('');
   const [controlType, setControlType] = useState('');
-  const [likelihood, setLikelihood] = useState('');
-  const [exposure, setExposure] = useState('');
-  const [consequence, setConsequence] = useState('');
+  const [postLikelihood, setLikelihood] = useState('');
+  const [postExposure, setExposure] = useState('');
+  const [postConsequence, setConsequence] = useState('');
   const [expanded, setExpanded] = useState(false);
   
   interface FieldErrors {
@@ -46,12 +47,12 @@ const ControlModule: React.FC = () => {
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({
     controlName: { error: false, helperText: '' },
     controlType: { error: false, helperText: '' },
-    likelihood: { error: false, helperText: '' },
-    exposure: { error: false, helperText: '' },
-    consequence: { error: false, helperText: '' },
+    postLikelihood: { error: false, helperText: '' },
+    postExposure: { error: false, helperText: '' },
+    postConsequence: { error: false, helperText: '' },
   });
 
-  const validateField = (fieldName: string, value: string, callback?: (isValid: boolean) => void): void => {
+  const validateField = (fieldName: string, value: string | null, callback?: (isValid: boolean) => void): void => {
     let isValid = true;
     let helperText = '';
 
@@ -59,24 +60,12 @@ const ControlModule: React.FC = () => {
 
     switch (fieldName) {
       case 'controlName':
-        isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Control name is required';
-        break;
       case 'controlType':
-        isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Control type is required';
-        break;
-      case 'likelihood':
-        isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Likelihood is required';
-        break;
-      case 'exposure':
-          isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Exposure is required';
-        break;
-      case 'consequence':
-        isValid = value.trim() !== '';
-        helperText = isValid ? '' : 'Consequence is required';
+      case 'postLikelihood':
+      case 'postExposure':
+      case 'postConsequence':
+        isValid = typeof value === 'string' && value.trim() !== '';
+        helperText = isValid ? '' : '*Required';
         break;
     }
 
@@ -91,34 +80,33 @@ const ControlModule: React.FC = () => {
       callback(isValid);
     }
   };
-
   const handleControlNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setControlName(newValue);
     validateField('controlName', newValue);
   };
 
-  const handleControlTypeChange = (event: SelectChangeEvent<string>) => {
-    const newValue = event.target.value; 
+  const handleControlTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const newValue = event.target.value as string;
     setControlType(newValue);
     validateField('controlType', newValue);
   };
 
   const handleLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newLikelihood: string) => {
     setLikelihood(newLikelihood);
-    validateField('likelihood', newLikelihood);
+    validateField('postLikelihood', newLikelihood);
   };
 
 
   const handleExposureChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newExposure: string) => {
     setExposure(newExposure);
-    validateField('exposure', newExposure);
+    validateField('postExposure', newExposure);
   };
 
 
   const handleConsequenceChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newConsequence: string) => {
     setConsequence(newConsequence);
-    validateField('consequence', newConsequence);
+    validateField('postConsequence', newConsequence);
   };
 
   const resetForm = () => {
@@ -132,9 +120,9 @@ const ControlModule: React.FC = () => {
   setFieldErrors({
     controlName: { error: false, helperText: '' },
     controlType: { error: false, helperText: '' },
-    likelihood: { error: false, helperText: '' },
-    exposure: { error: false, helperText: '' },
-    consequence: { error: false, helperText: '' },
+    postLikelihood: { error: false, helperText: '' },
+    postExposure: { error: false, helperText: '' },
+    postConsequence: { error: false, helperText: '' },
   });
 
   setExpanded(false);
@@ -147,14 +135,14 @@ const ControlModule: React.FC = () => {
     const fieldValues = {
       controlName,
       controlType,
-      likelihood,
-      exposure,
-      consequence
+      postLikelihood,
+      postExposure,
+      postConsequence
     };
   
-    const fieldsToValidate = ['controlName', 'controlType', 'likelihood', 'exposure', 'consequence'];
+    const fieldsToValidate = ['controlName', 'controlType', 'postLikelihood', 'postExposure', 'postConsequence'];
     fieldsToValidate.forEach((fieldName) => {
-      const fieldValue = getFieldValue(fieldName, { controlName, controlType, likelihood, exposure, consequence });
+      const fieldValue = getFieldValue(fieldName, { controlName, controlType, postLikelihood, postExposure, postConsequence });
       validateField(fieldName, fieldValue, (isValid) => {
         isFormValid = isFormValid && isValid;
         isFormValid = isFormValid && isValid;
@@ -179,9 +167,9 @@ const ControlModule: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let isFormValid = true;
-    const state = { controlName, controlType, likelihood, exposure, consequence };
+    const state = { controlName, controlType, postLikelihood, postExposure, postConsequence };
   
-    const fieldsToValidate = ['controlName', 'controlType', 'likelihood', 'exposure', 'consequence'];
+    const fieldsToValidate = ['controlName', 'controlType', 'postLikelihood', 'postExposure', 'postConsequence'];
     fieldsToValidate.forEach((fieldName) => {
       const fieldValue = getFieldValue(fieldName, state);
       validateField(fieldName, fieldValue, (isValid) => {
@@ -195,82 +183,7 @@ const ControlModule: React.FC = () => {
     }
   };
 
-  const [controlNameError, setControlNameError] = useState(false);
-  const [controlNameHelperText, setControlNameHelperText] = useState('');
-  const [controlTypeError, setControlTypeError] = useState(false);
-  const [controlTypeHelperText, setControlTypeHelperText] = useState('');
-  const [likelihoodError, setLikelihoodError] = useState(false);
-  const [likelihoodHelperText, setLikelihoodHelperText] = useState('');
-  const [exposureError, setExposureError] = useState(false);
-  const [exposureHelperText, setExposureHelperText] = useState('');
-  const [consequenceError, setConsequenceError] = useState(false);
-  const [consequenceHelperText, setConsequenceHelperText] = useState('');
-
-  const validateControlName = () => {
-    if (!controlName.trim()) {
-      setControlNameError(true);
-      setControlNameHelperText('Control name is required');
-      return false;
-    }
-    setControlNameError(false);
-    setControlNameHelperText('');
-    return true;
-  };
-
-  const validateControlType = () => {
-    if (!controlType) {
-      setControlTypeError(true);
-      setControlTypeHelperText('Control type is required');
-      return false;
-    }
-    setControlTypeError(false);
-    setControlTypeHelperText('');
-    return true;
-  };
-
-  const validateLikelihood = () => {
-    if (!likelihood) {
-      setLikelihoodError(true);
-      setLikelihoodHelperText('Likelihood rating is required');
-      return false;
-    }
-    setLikelihoodError(false);
-    setLikelihoodHelperText('');
-    return true;
-  };
-
-  const validateExposure = () => {
-    if (!exposure) {
-      setExposureError(true);
-      setExposureHelperText('Exposure rating is required');
-      return false;
-    }
-    setExposureError(false);
-    setExposureHelperText('');
-    return true;
-  };
-
-  const validateConsequence = () => {
-    if (!consequence) {
-      setConsequenceError(true);
-      setConsequenceHelperText('Consequence rating is required');
-      return false;
-    }
-    setConsequenceError(false);
-    setConsequenceHelperText('');
-    return true;
-  };
-
-  const handleChangeControlName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setControlName(event.target.value);
-  };
-
-  const handleChangeControlType = (event: SelectChangeEvent<string>) => {
-    setControlType(event.target.value);
-  };
-
- 
-
+  
 return (
   <AccordionModule
     title="Control Information"
@@ -279,38 +192,43 @@ return (
     expanded={expanded}
     onChange={handleAccordionChange}
     fieldErrors={fieldErrors}
-  >
+    >
     <form onSubmit={handleSubmit}>
-      <TextField
-        id="inputControlName"
-        label="Control Name"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={controlName}
-        onChange={handleControlNameChange}
-        error={fieldErrors.controlName.error}
-        helperText={fieldErrors.controlName.helperText}
-        required
-      />
-    
-      <FormControl fullWidth margin="normal" error={fieldErrors.controlType.error}>
-        <Select
-          id="inputControlType"
-          value={controlType}
-          onChange={handleControlTypeChange}
-          displayEmpty
-        >
-        <MenuItem value="Please Select"><em>Please Select</em></MenuItem>
-        <MenuItem value="Health">Health</MenuItem>
-            <MenuItem value="Safety">Safety</MenuItem>
-          </Select>
-      </FormControl>
+    <TextField
+      id="inputControlName"
+      label="Control Name"
+      variant="outlined"
+      fullWidth
+      margin="normal"
+      value={controlName}
+      onChange={handleControlNameChange}
+      error={fieldErrors.controlName.error}
+      helperText={fieldErrors.controlName.helperText}
+      required
+    />
 
-      <FormControl fullWidth margin="normal" error={fieldErrors.likelihood.error}>
+    <TextField
+      select
+      fullWidth
+      margin="normal"
+      label="Select Control Type"
+      value={controlType}
+      onChange={handleControlTypeChange}
+      error={fieldErrors.controlType.error}
+      helperText={fieldErrors.controlType.helperText}
+    >
+      <MenuItem value="Elimination">Elimination</MenuItem>
+      <MenuItem value="Substitution">Substitution</MenuItem>
+      <MenuItem value="Engineering">Engineering</MenuItem>
+      <MenuItem value="Administrative">Administrative</MenuItem>
+      <MenuItem value="Personal Protective Equipment">PPE</MenuItem>
+      
+    </TextField>
+
+      <FormControl fullWidth margin="normal" error={fieldErrors.postLikelihood.error}>
       <Typography>Likelihood of Occurrence</Typography>
       <ToggleButtonGroup
-        value={likelihood}
+        value={postLikelihood}
         exclusive
         onChange={handleLikelihoodChange}
       >
@@ -318,14 +236,14 @@ return (
           <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
         ))}
       </ToggleButtonGroup>
-      <Typography variant="caption" color="error">{fieldErrors.likelihood.helperText}</Typography>
+      <Typography variant="caption" color="error">{fieldErrors.postLikelihood.helperText}</Typography>
     </FormControl>
       
 
-      <FormControl fullWidth margin="normal" error={fieldErrors.exposure.error}>
+      <FormControl fullWidth margin="normal" error={fieldErrors.postExposure.error}>
         <Typography>Exposure to Control</Typography>
         <ToggleButtonGroup
-          value={exposure}
+          value={postExposure}
           exclusive
           onChange={handleExposureChange}
         >
@@ -333,13 +251,13 @@ return (
             <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
           ))}
         </ToggleButtonGroup>
-        <Typography variant="caption" color="error">{fieldErrors.exposure.helperText}</Typography>
+        <Typography variant="caption" color="error">{fieldErrors.postExposure.helperText}</Typography>
       </FormControl>
     
-      <FormControl fullWidth margin="normal" error={fieldErrors.consequence.error}>
+      <FormControl fullWidth margin="normal" error={fieldErrors.postConsequence.error}>
         <Typography>Consequence of Exposure</Typography>
         <ToggleButtonGroup
-          value={consequence}
+          value={postConsequence}
           exclusive
           onChange={handleConsequenceChange}
         >
@@ -347,7 +265,7 @@ return (
             <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
           ))}
         </ToggleButtonGroup>
-        <Typography variant="caption" color="error">{fieldErrors.consequence.helperText}</Typography>
+        <Typography variant="caption" color="error">{fieldErrors.postConsequence.helperText}</Typography>
       </FormControl>
     </form>
   </AccordionModule>

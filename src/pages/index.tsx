@@ -15,7 +15,7 @@ const App: React.FC = () => {
         <Tables />
       </div>
     </div>
-      );
+  );
 };
 
 export default App;

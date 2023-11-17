@@ -13,6 +13,12 @@ interface FieldError {
 }
 
 
+interface ControlModuleProps {
+  expanded: boolean;
+  onToggle: () => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
 const getFieldValue = (fieldName: string, state: any) => {
   switch (fieldName) {
     case 'controlName':
@@ -32,13 +38,12 @@ const getFieldValue = (fieldName: string, state: any) => {
 
 
 
-const ControlModule: React.FC = () => {
-  const [controlName, setControlName] = useState('');
+const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onToggle }): ReactElement => {
+    const [controlName, setControlName] = useState('');
   const [controlType, setControlType] = useState('');
   const [postLikelihood, setLikelihood] = useState('');
   const [postExposure, setExposure] = useState('');
   const [postConsequence, setConsequence] = useState('');
-  const [expanded, setExpanded] = useState(false);
   
   interface FieldErrors {
     [key: string]: FieldError;
@@ -125,7 +130,7 @@ const ControlModule: React.FC = () => {
     postConsequence: { error: false, helperText: '' },
   });
 
-  setExpanded(false);
+
   };
 
   const performFormSubmission = () => {
@@ -156,9 +161,7 @@ const ControlModule: React.FC = () => {
     }
   };
 
-  const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
+
 
   useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
@@ -190,7 +193,7 @@ return (
     onSubmit={performFormSubmission} 
     buttonLabel="Submit Control"
     expanded={expanded}
-    onChange={handleAccordionChange}
+    onChange={onToggle}
     fieldErrors={fieldErrors}
     >
     <form onSubmit={handleSubmit}>

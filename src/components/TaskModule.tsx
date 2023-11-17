@@ -59,10 +59,9 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit })
   };
 
   const handleAccordionChange = () => {
-    onToggle(); // Replace setExpanded with onToggle
-  };
-
-  useEffect(() => {
+    onToggle(); // This should work if onToggle is correctly passed as a function
+    };
+    useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
@@ -74,15 +73,29 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit })
   return (
     <AccordionModule
       title="Task Information"
-      onSubmit={onSubmit} // Use the onSubmit prop for form submission
+      onSubmit={handleSubmit} // Pass handleSubmit here
       buttonLabel="Submit Task"
-      expanded={expanded} // Use the expanded prop
+      expanded={expanded}
       onChange={handleAccordionChange}
       fieldErrors={fieldErrors}
     >
-      {/* Your form elements here */}
-    </AccordionModule>
-  )
+      <form onSubmit={handleSubmit}> {/* Replace the comment with handleSubmit */}
+          <TextField
+              id="inputTaskName"
+              label="Task Name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={taskName}
+              onChange={handleTaskNameChange}
+              error={fieldErrors.taskName.error}
+              helperText={fieldErrors.taskName.helperText}
+              required
+          />
+          {/* ... other form elements */}
+      </form>
+  </AccordionModule>
+);
 }
 
 export default TaskModule;

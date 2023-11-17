@@ -12,6 +12,13 @@ interface FieldError {
   helperText: string;
 }
 
+// Define the props type for HazardModule
+interface HazardModuleProps {
+  expanded: boolean;
+  onToggle: () => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}
+
 const getFieldValue = (fieldName: string, state: any) => {
   switch (fieldName) {
     case 'hazardName':
@@ -29,13 +36,12 @@ const getFieldValue = (fieldName: string, state: any) => {
   }
 };
 
-const HazardModule: React.FC = (): ReactElement => {
+const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): ReactElement => {
   const [hazardName, setHazardName] = useState('');
   const [hazardType, setHazardType] = useState('');
   const [preLikelihood, setPreLikelihood] = useState('');
   const [preExposure, setPreExposure] = useState('');
   const [preConsequence, setPreConsequence] = useState('');
-  const [expanded, setExpanded] = useState(false);
 
   interface FieldErrors {
     [key: string]: FieldError;
@@ -123,7 +129,7 @@ const HazardModule: React.FC = (): ReactElement => {
     preConsequence: { error: false, helperText: '' },
   });
 
-  setExpanded(false);
+  
   };
 
   const performFormSubmission = () => {
@@ -153,9 +159,7 @@ const HazardModule: React.FC = (): ReactElement => {
     resetForm();
   }
 };
-  const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
+
 
   useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
@@ -186,17 +190,17 @@ const HazardModule: React.FC = (): ReactElement => {
 return (
   <AccordionModule
     title="Hazard Information"
-    onSubmit={performFormSubmission} 
+    onSubmit={performFormSubmission} // Use the internal performFormSubmission function
     buttonLabel="Submit Hazard"
-    expanded={expanded}
-    onChange={handleAccordionChange}
+    expanded={expanded} // Use the expanded prop
+    onChange={onToggle} // Use the onToggle prop
     fieldErrors={fieldErrors}
-    >
+  >
     <form onSubmit={handleSubmit}>
     <TextField
       id="inputHazardName"
       label="Hazard Name"
-      variant="outlined"
+      variant="outlined"  
       fullWidth
       margin="normal"
       value={hazardName}

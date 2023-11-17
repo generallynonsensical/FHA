@@ -42,7 +42,7 @@ const DataController: React.FC<DataControllerProps> = (props) => {
             <TaskModule 
                 expanded={isTaskAccordionExpanded} 
                 onToggle={toggleTaskAccordion} 
-                onSubmit={handleSubmit} // Use the generic handleSubmit
+                onSubmit={handleSubmit}
             />
             <HazardModule 
                 expanded={isHazardAccordionExpanded} 

@@ -18,8 +18,9 @@ interface TaskModuleProps {
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit }): ReactElement => {
+const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle}): ReactElement => {
   const [taskName, setTaskName] = useState('');
+  
   
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({
     taskName: { error: false, helperText: '' },
@@ -73,29 +74,28 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit })
   return (
     <AccordionModule
       title="Task Information"
-      onSubmit={handleSubmit} // Pass handleSubmit here
+      onSubmit={handleSubmit}
       buttonLabel="Submit Task"
       expanded={expanded}
-      onChange={handleAccordionChange}
+      onChange={onToggle}
       fieldErrors={fieldErrors}
     >
-      <form onSubmit={handleSubmit}> {/* Replace the comment with handleSubmit */}
-          <TextField
-              id="inputTaskName"
-              label="Task Name"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              value={taskName}
-              onChange={handleTaskNameChange}
-              error={fieldErrors.taskName.error}
-              helperText={fieldErrors.taskName.helperText}
-              required
-          />
-          {/* ... other form elements */}
-      </form>
-  </AccordionModule>
-);
+      {/* Removed form tags here */}
+      <TextField
+          id="inputTaskName"
+          label="Task Name"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={taskName}
+          onChange={handleTaskNameChange}
+          error={fieldErrors.taskName.error}
+          helperText={fieldErrors.taskName.helperText}
+          required
+      />
+      {/* ... other form elements */}
+    </AccordionModule>
+  );
 }
 
 export default TaskModule;

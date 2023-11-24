@@ -17,16 +17,19 @@ const DataController: React.FC<DataControllerProps> = (props) => {
 
     // Functions to toggle the state of each accordion
     const toggleTaskAccordion = () => {
+        console.log('toggleTaskAccordion called');
         setTaskAccordionExpanded(!isTaskAccordionExpanded);
         setHazardAccordionExpanded(false);
         setControlAccordionExpanded(false);
     };
     const toggleHazardAccordion = () => {
+        console.log('toggleHazardAccordion called');
         setTaskAccordionExpanded(false);
         setHazardAccordionExpanded(!isHazardAccordionExpanded);
         setControlAccordionExpanded(false);
     };
     const toggleControlAccordion = () => {
+        console.log('toggleControlAccordion called');
         setTaskAccordionExpanded(false);
         setHazardAccordionExpanded(false);
         setControlAccordionExpanded(!isControlAccordionExpanded);

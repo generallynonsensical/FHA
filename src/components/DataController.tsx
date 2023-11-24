@@ -41,12 +41,17 @@ const DataController: React.FC<DataControllerProps> = (props) => {
    
         // Toggle next accordion based on the module
         if (module === 'task') {
-            toggleHazardAccordion();
+            setTaskAccordionExpanded(false);
+            setHazardAccordionExpanded(true);
+            setControlAccordionExpanded(false);
         } else if (module === 'hazard') {
-            toggleControlAccordion();
+            setTaskAccordionExpanded(false);
+            setHazardAccordionExpanded(false);
+            setControlAccordionExpanded(true);
         } else if (module === 'control') {
-            toggleTaskAccordion();
-            // Optionally reset Task module form here
+            setTaskAccordionExpanded(true);
+            setHazardAccordionExpanded(false);
+            setControlAccordionExpanded(false);
         }
     };
 

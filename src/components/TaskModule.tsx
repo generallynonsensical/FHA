@@ -46,7 +46,6 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle}): ReactElem
   const resetForm = () => {
     setTaskName('');
     setFieldErrors({ taskName: { error: false, helperText: '' } });
-    onToggle()
   };
 
   const performFormSubmission = () => {

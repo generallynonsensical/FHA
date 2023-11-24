@@ -16,7 +16,7 @@ interface FieldError {
 interface ControlModuleProps {
   expanded: boolean;
   onToggle: () => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (data: any, module: string) => void;
 }
 
 const getFieldValue = (fieldName: string, state: any) => {

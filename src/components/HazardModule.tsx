@@ -16,7 +16,7 @@ interface FieldError {
 interface HazardModuleProps {
   expanded: boolean;
   onToggle: () => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (data: any, module: string) => void;
 }
 
 const getFieldValue = (fieldName: string, state: any) => {
@@ -56,10 +56,10 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
   });
 
   const validateField = (fieldName: string, value: string | null, callback?: (isValid: boolean) => void): void => {
+    console.log(`Validating field: ${fieldName} with value: ${value}`);
+
     let isValid = true;
     let helperText = '';
-
-    console.log(`Validating field: ${fieldName} with value: ${value}`);
 
     switch (fieldName) {
       case 'hazardName':
@@ -195,20 +195,20 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
 return (
   <AccordionModule
     title="Hazard Information"
-    onSubmit={handleSubmit} // Use the internal performFormSubmission function
+    onSubmit={handleSubmit} 
     buttonLabel="Submit Hazard"
-    expanded={expanded} // Use the expanded prop
-    onChange={handleAccordionChange} // Use the onToggle prop
+    expanded={expanded} 
+    onChange={handleAccordionChange} 
     fieldErrors={fieldErrors}
   >
     <TextField
       id="inputHazardName"
       label="Hazard Name"
-      variant="outlined"  
+      variant="outlined"
       fullWidth
       margin="normal"
       value={hazardName}
-      onChange={handleAccordionChange}
+      onChange={handleHazardNameChange}
       error={fieldErrors.hazardName.error}
       helperText={fieldErrors.hazardName.helperText}
       required

@@ -1,29 +1,64 @@
-// src/containers/InputModule.tsx
+// src/containers/DataController.tsx
 
 import React, { useState } from 'react';
-import TaskModule from '../components/TaskModule';
-import HazardModule from '../components/HazardModule';
-import ControlModule from '../components/ControlModule';
+import InputModule from './InputModule';
 
-const InputModule: React.FC = () => {
-  const [expanded, setExpanded] = useState(false);
+interface DataControllerProps {
+    // You can add props here if needed, like callbacks for data submission success or error
+}
 
-  const handleToggle = () => {
-    setExpanded(!expanded);
-  };
+const DataController: React.FC<DataControllerProps> = (props) => {
+    // State for managing accordion expanded status
+    const [isTaskAccordionExpanded, setTaskAccordionExpanded] = useState(true);
+    const [isHazardAccordionExpanded, setHazardAccordionExpanded] = useState(false);
+    const [isControlAccordionExpanded, setControlAccordionExpanded] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // handle form submission here
-  };
+    // Functions to toggle the state of each accordion
+    const toggleTaskAccordion = () => {
+        console.log('toggleTaskAccordion called');
+        setTaskAccordionExpanded(!isTaskAccordionExpanded);
+        setHazardAccordionExpanded(false);
+        setControlAccordionExpanded(false);
+    };
+    const toggleHazardAccordion = () => {
+        console.log('toggleHazardAccordion called');
+        setTaskAccordionExpanded(false);
+        setHazardAccordionExpanded(!isHazardAccordionExpanded);
+        setControlAccordionExpanded(false);
+    };
+    const toggleControlAccordion = () => {
+        console.log('toggleControlAccordion called');
+        setTaskAccordionExpanded(false);
+        setHazardAccordionExpanded(false);
+        setControlAccordionExpanded(!isControlAccordionExpanded);
+    };
 
-  return (
-    <div className="accordion-container">
-      <TaskModule expanded={expanded} onToggle={handleToggle} onSubmit={handleSubmit} />
-      <HazardModule expanded={expanded} onToggle={handleToggle} onSubmit={handleSubmit} />
-      <ControlModule expanded={expanded} onToggle={handleToggle} onSubmit={handleSubmit}/>
-    </div>
-  );
+    // Generic handler for submissions; adapt as necessary
+    const handleSubmit = async (data: any, module: string) => {
+        console.log("Submitting form for module:", module);
+        // Validate data
+        if (module === 'task') {
+            // ... validation logic for task module ...
+        } else if (module === 'hazard') {
+            // ... validation logic for hazard module ...
+        } else if (module === 'control') {
+            // ... validation logic for control module ...
+        }
+
+        // ... submission logic ...
+    };
+
+    return (
+        <InputModule
+            isTaskExpanded={isTaskAccordionExpanded}
+            isHazardExpanded={isHazardAccordionExpanded}
+            isControlExpanded={isControlAccordionExpanded}
+            toggleTask={toggleTaskAccordion}
+            toggleHazard={toggleHazardAccordion}
+            toggleControl={toggleControlAccordion}
+            handleSubmit={handleSubmit}
+        />
+    );
 };
 
-export default InputModule;
+export default DataController;

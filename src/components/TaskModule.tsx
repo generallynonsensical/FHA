@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactElement } from 'react';
+import React, { useState, useEffect } from 'react';
 import AccordionModule from './AccordionModule';
 import TextField from '@mui/material/TextField';
 
@@ -14,12 +14,12 @@ interface FieldErrors {
 
 // Define the props type for TaskModule
 interface TaskModuleProps {
-    expanded: boolean;
-    onToggle: () => void;
-    onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  expanded: boolean;
+  onToggle: () => void;
+  onSubmit: (data: any, module: string) => void;
 }
 
-const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle}): ReactElement => {
+const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit }) => {
   const [taskName, setTaskName] = useState('');
   
   
@@ -49,16 +49,17 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle}): ReactElem
     setFieldErrors({ taskName: { error: false, helperText: '' } });
   };
 
-  const performFormSubmission = () => {
+  const performFormSubmission = (): boolean => {
     const isTaskNameValid = validateField(taskName);
 
     if (isTaskNameValid) {
-      console.log("Submitting form with Task Name:", taskName);
-      // Form submission logic specific to TaskModule here...
-      resetForm();
+        console.log("Submitting form with Task Name:", taskName);
+        // Form submission logic specific to TaskModule here...
+        resetForm();
+        return true;
     }
+    return false;
   };
-
   const handleAccordionChange = () => {
     onToggle(); 
     };
@@ -68,8 +69,11 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle}): ReactElem
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    performFormSubmission();
+    if (performFormSubmission()) { 
+        onSubmit(taskName, 'task'); // Pass 'task' as the second argument
+    }
   };
+
 
   return (
     <AccordionModule

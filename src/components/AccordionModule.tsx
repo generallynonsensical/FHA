@@ -10,12 +10,14 @@ interface AccordionModuleProps {
   buttonLabel: string;
   expanded: boolean;
   onChange: () => void;
-  fieldErrors: any; // replace with the correct type
+  
+
+  fieldErrors: any; 
 }
 
 const AccordionModule: React.FC<AccordionModuleProps> = ({ title, children, onSubmit, buttonLabel, expanded, onChange, fieldErrors }) => {
   return (
-    <Accordion expanded={expanded} onChange={onChange}>
+    <Accordion onChange={onChange}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>{title}</Typography>
       </AccordionSummary>

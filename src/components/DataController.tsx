@@ -37,23 +37,21 @@ const DataController: React.FC<DataControllerProps> = (props) => {
 
     // Generic handler for submissions; adapt as necessary
     const handleSubmit = async (data: any, module: string) => {
-        // Validate data
-   
-        // Toggle next accordion based on the module
+        console.log("Submitting form for module:", module);
+                // Validate data
         if (module === 'task') {
             setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(true);
-            setControlAccordionExpanded(false);
         } else if (module === 'hazard') {
-            setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(false);
             setControlAccordionExpanded(true);
         } else if (module === 'control') {
-            setTaskAccordionExpanded(true);
-            setHazardAccordionExpanded(false);
             setControlAccordionExpanded(false);
+            // Decide what to do after control submission, e.g., reopen Task
+            setTaskAccordionExpanded(true);
         }
     };
+
 
     // Function to fetch data (e.g., tasks, hazards, controls)
     const fetchData = async () => {

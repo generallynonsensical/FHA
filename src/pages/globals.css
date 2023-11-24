@@ -26,15 +26,3 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.accordion-container {
-  display: flex;
-  flex-direction: column;
-  width: 25%;
-}
-
-.table-container {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  margin-right: 15px;
-}

@@ -165,7 +165,12 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
-  
+  const handleAccordionChange = () => {
+    onToggle(); 
+    };
+    useEffect(() => {
+    console.log("Field errors updated:", fieldErrors);
+  }, [fieldErrors]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -190,13 +195,12 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
 return (
   <AccordionModule
     title="Hazard Information"
-    onSubmit={performFormSubmission} // Use the internal performFormSubmission function
+    onSubmit={handleSubmit} // Use the internal performFormSubmission function
     buttonLabel="Submit Hazard"
     expanded={expanded} // Use the expanded prop
-    onChange={onToggle} // Use the onToggle prop
+    onChange={handleAccordionChange} // Use the onToggle prop
     fieldErrors={fieldErrors}
   >
-    <form onSubmit={handleSubmit}>
     <TextField
       id="inputHazardName"
       label="Hazard Name"
@@ -204,7 +208,7 @@ return (
       fullWidth
       margin="normal"
       value={hazardName}
-      onChange={handleHazardNameChange}
+      onChange={handleAccordionChange}
       error={fieldErrors.hazardName.error}
       helperText={fieldErrors.hazardName.helperText}
       required
@@ -265,7 +269,7 @@ return (
       </ToggleButtonGroup>
       <Typography variant="caption" color="error">{fieldErrors.preConsequence.helperText}</Typography>
     </FormControl>
-  </form>
+
 </AccordionModule>
 )}
 

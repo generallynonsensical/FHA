@@ -2,6 +2,7 @@ import React, { useState, useEffect, ReactElement } from 'react';
 import AccordionModule from './AccordionModule';
 import TextField from '@mui/material/TextField';
 
+
 interface FieldError {
   error: boolean;
   helperText: string;
@@ -59,7 +60,7 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle}): ReactElem
   };
 
   const handleAccordionChange = () => {
-    onToggle(); // This should work if onToggle is correctly passed as a function
+    onToggle(); 
     };
     useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
@@ -76,7 +77,7 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle}): ReactElem
       onSubmit={handleSubmit}
       buttonLabel="Submit Task"
       expanded={expanded}
-      onChange={onToggle}
+      onChange={handleAccordionChange}
       fieldErrors={fieldErrors}
     >
       {/* Removed form tags here */}

@@ -1,44 +1,32 @@
+// AccordionModule.tsx
 import React, { ReactNode } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Button from '@mui/material/Button';
-
-
-interface FieldError {
-  error: boolean;
-  helperText: string;
-}
 
 interface AccordionModuleProps {
   title: string;
   children: ReactNode;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   buttonLabel: string;
-  fieldErrors: { [fieldName: string]: FieldError };
   expanded: boolean;
   onChange: () => void;
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void; // Modify this line
+  fieldErrors: any; // replace with the correct type
 }
 
-const AccordionModule: React.FC<AccordionModuleProps> = ({
-  title, children, onSubmit, buttonLabel, fieldErrors, expanded, onChange
-}) => {
+const AccordionModule: React.FC<AccordionModuleProps> = ({ title, children, onSubmit, buttonLabel, expanded, onChange, fieldErrors }) => {
   return (
     <Accordion expanded={expanded} onChange={onChange}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>{title}</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <form onSubmit={onSubmit}> {/* Wrap in form */}
+        <form onSubmit={onSubmit}>
           {children}
-          <Button type="submit" variant="contained" color="primary" sx={{ mt: 4 }}>
-            {buttonLabel}
-          </Button>
+          <Button className="bg-blue-600"type="submit" variant="contained">{buttonLabel}</Button>
         </form>
       </AccordionDetails>
     </Accordion>
   );
 };
+
 export default AccordionModule;

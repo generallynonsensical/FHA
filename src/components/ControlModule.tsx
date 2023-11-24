@@ -167,6 +167,13 @@ const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onToggle }): Re
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
+  const handleAccordionChange = () => {
+    onToggle(); 
+    };
+    useEffect(() => {
+    console.log("Field errors updated:", fieldErrors);
+  }, [fieldErrors]);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let isFormValid = true;
@@ -190,13 +197,12 @@ const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onToggle }): Re
 return (
   <AccordionModule
     title="Control Information"
-    onSubmit={performFormSubmission} 
+    onSubmit={handleSubmit} 
     buttonLabel="Submit Control"
     expanded={expanded}
-    onChange={onToggle}
+    onChange={handleAccordionChange}
     fieldErrors={fieldErrors}
     >
-    <form onSubmit={handleSubmit}>
     <TextField
       id="inputControlName"
       label="Control Name"
@@ -270,7 +276,7 @@ return (
         </ToggleButtonGroup>
         <Typography variant="caption" color="error">{fieldErrors.postConsequence.helperText}</Typography>
       </FormControl>
-    </form>
+
   </AccordionModule>
 )};
 

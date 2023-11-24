@@ -64,17 +64,17 @@ const DataController: React.FC<DataControllerProps> = (props) => {
         <div>
             <TaskModule 
                 expanded={isTaskAccordionExpanded} 
-                onToggle={() => setTaskAccordionExpanded(!isTaskAccordionExpanded)}
+                onToggle={toggleTaskAccordion}
                 onSubmit={(data) => handleSubmit(data, 'task')}
             />
             <HazardModule 
                 expanded={isHazardAccordionExpanded} 
-                onToggle={() => setHazardAccordionExpanded(!isHazardAccordionExpanded)}
+                onToggle={toggleHazardAccordion}
                 onSubmit={(data) => handleSubmit(data, 'hazard')} 
             />
             <ControlModule 
                 expanded={isControlAccordionExpanded} 
-                onToggle={() => setControlAccordionExpanded(!isControlAccordionExpanded)}
+                onToggle={toggleControlAccordion}
                 onSubmit={(data) => handleSubmit(data, 'control')} 
             />
             {/* Add other modules as needed */}

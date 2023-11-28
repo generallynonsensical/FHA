@@ -132,33 +132,6 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
   
   };
 
-  const performFormSubmission = () => {
-    console.log("Submitting form");
-    let isFormValid = true;
-
-    const fieldValues = {
-      hazardName,
-      hazardType,
-      preLikelihood,
-      preExposure,
-      preConsequence
-    };
-
-  const fieldsToValidate = ['hazardName', 'hazardType', 'preLikelihood', 'preExposure', 'preConsequence'];
-  fieldsToValidate.forEach((fieldName) => {
-    const fieldValue = getFieldValue(fieldName, { hazardName, hazardType, preLikelihood, preExposure, preConsequence });
-    validateField(fieldName, fieldValue, (isValid) => {
-      isFormValid = isFormValid && isValid;
-      isFormValid = isFormValid && isValid;
-    });
-  });
-
-  if (isFormValid) {
-    // Form submission logic here...
-    // After successful submission, reset the form
-    resetForm();
-  }
-};
 
 
   useEffect(() => {
@@ -174,6 +147,8 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("Submitting form");
+  
     let isFormValid = true;
     const state = { hazardName, hazardType, preLikelihood, preExposure, preConsequence };
   
@@ -186,10 +161,11 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
     });
   
     if (isFormValid) {
-      performFormSubmission();
-     
+      // Form submission logic here...
+      resetForm();
     }
   };
+  
   
 
 return (

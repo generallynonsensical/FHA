@@ -37,6 +37,7 @@ const TableModule: React.FC = () => {
           <TableHead>
             <TableRow>
               <TableCell>Task ID</TableCell>
+              <TableCell>Task Name</TableCell>
               <TableCell>Hazard ID</TableCell>
               <TableCell>Hazard Name</TableCell>
               <TableCell>Hazard Type</TableCell>

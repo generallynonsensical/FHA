@@ -96,21 +96,21 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
     validateField('hazardType', newValue);
   };
 
-  const handlePreLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newLikelihood: string) => {
-    setPreLikelihood(newLikelihood);
-    validateField('likelihood', newLikelihood);
+  const handlePreLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPreLikelihood: string) => {
+    setPreLikelihood(newPreLikelihood);
+    validateField('preLikelihood', newPreLikelihood);
   };
 
 
-  const handlePreExposureChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newExposure: string) => {
-    setPreExposure(newExposure);
-    validateField('exposure', newExposure);
+  const handlePreExposureChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPreExposure: string) => {
+    setPreExposure(newPreExposure);
+    validateField('preExposure', newPreExposure);
   };
 
 
-  const handlePreConsequenceChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newConsequence: string) => {
-    setPreConsequence(newConsequence);
-    validateField('consequence', newConsequence);
+  const handlePreConsequenceChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPreConsequence: string) => {
+    setPreConsequence(newPreConsequence);
+    validateField('preConsequence', newPreConsequence);
   };
   
   const resetForm = () => {

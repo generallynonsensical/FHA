@@ -1,14 +1,9 @@
 import React, { useState, useEffect, ReactElement } from 'react';
 import AccordionModule from './AccordionModule';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ToggleButton from '@mui/material/ToggleButton';
-import FormControl from '@mui/material/FormControl';
-import Typography from '@mui/material/Typography';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import dayjs from 'dayjs';
 
 interface FieldError {
   error: boolean;
@@ -21,7 +16,6 @@ interface GeneralModuleProps {
   onSubmit: (data: any, module: string) => void;
   
 }
-
 
 const getFieldValue = (fieldName: string, state: any) => {
   switch (fieldName) {
@@ -37,9 +31,10 @@ const getFieldValue = (fieldName: string, state: any) => {
       return '';
   }
 };
+
 const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSubmit }): ReactElement => {
   const [createdBy, setCreatedBy] = useState('');
-  const [dateCreated, setDateCreated] = useState<Date | null>(new Date());
+  const [dateCreated, setDateCreated] = useState(dayjs(new Date()));
   const [companyName, setCompanyName] = useState('');
   const [positionEvaluated, setPositionEvaluated] = useState('');
 
@@ -72,14 +67,14 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
 
     console.log(`Validation result for ${fieldName}:`, { error: !isValid, helperText });
 
-    setFieldErrors(prevErrors => ({
-      ...prevErrors,
-      [fieldName]: { error: !isValid, helperText: helperText },
-    }));
+      setFieldErrors(prevErrors => ({
+        ...prevErrors,
+        [fieldName]: { error: !isValid, helperText: helperText },
+      }));
 
-    if (callback) {
-      callback(isValid);
-    }
+      if (callback) {
+        callback(isValid);
+      }
   };
 
   const handleCreatedByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,9 +83,12 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
     validateField('createdBy', newValue);
   };
 
-  const handleDateCreatedChange = (newValue: Date | null) => {
-    setDateCreated(newValue);
-    validateField('dateCreated', newValue ? newValue.toString() : null);
+  const handleDateCreatedChange = (date: dayjs.Dayjs | null) => {
+    if (date) {
+      setDateCreated(date);
+    } else {
+      setDateCreated(dayjs(new Date()));
+    }
   };
   
   const handleCompanyNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,39 +103,19 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
     validateField('positionEvaluated', newValue);
   };
 
-
-    //setErrors(newErrors);
-    //return isValid;
-    //};
-
-    // Function to handle form submission
-    //const handleSubmit = () => {
-   //   if (validateFields()) {
-        // Form submission logic here
-    //  }
-   // };
-
-   // Function to toggle Accordion
-   //const toggleAccordion = () => {
-   // setIsAccordionExpanded(!isAccordionExpanded);
- // };  
-
-
   const resetForm = () => {
     console.log("Resetting form");
     setCreatedBy('');
-    setDateCreated(null);
-    setCompanyName('');
+    setDateCreated(dayjs(new Date())); // pass a new Date object
     setCompanyName('');
     setPositionEvaluated('');
-
-  setFieldErrors({
-    createdBy: { error: false, helperText: '' },
-    dateCreated: { error: false, helperText: '' },
-    companyName: { error: false, helperText: '' },
-    positionEvaluated: { error: false, helperText: '' },
-  });
-
+  
+    setFieldErrors({
+      createdBy: { error: false, helperText: '' },
+      dateCreated: { error: false, helperText: '' },
+      companyName: { error: false, helperText: '' },
+      positionEvaluated: { error: false, helperText: '' },
+    });
   };
 
   
@@ -181,9 +159,9 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
       onSubmit={handleSubmit}
       buttonLabel="Submit"
       expanded={expanded}
-      onChange={onToggle}
+      onChange={handleAccordionChange}
       fieldErrors={fieldErrors}
-    >
+      >
       <TextField
         id="inputCreatedBy"
         label="Created By"
@@ -199,24 +177,36 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Date Created"
-          value={dateCreated}
+          value={dateCreated} 
           onChange={handleDateCreatedChange}
-          renderInput={(params) => <TextField {...params} />}
-      />
+          slotProps={{ textField: { variant: 'outlined' } }}
+        
+        />
       </LocalizationProvider>
+      
       <TextField
-        label="Company Name"
+        id="inputCompanyName"
+        label="Company Name: "
+        variant="outlined"
+        fullWidth
+        margin="normal"
         value={companyName}
         onChange={handleCompanyNameChange}
         error={fieldErrors.companyName.error}
         helperText={fieldErrors.companyName.helperText}
+        required
       />
-      <TextField
-        label="Position Being Evaluated"
+       <TextField
+        id="inputPositionEvaluated"
+        label="Position Evaluated: "
+        variant="outlined"
+        fullWidth
+        margin="normal"
         value={positionEvaluated}
         onChange={handlePositionEvaluatedChange}
         error={fieldErrors.positionEvaluated.error}
         helperText={fieldErrors.positionEvaluated.helperText}
+        required
       />
     </AccordionModule>
   );

@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 
 const TableModule: React.FC = () => {
   return (
-    <div className="tables-container" style={{ width: '100%'}}>
+    <div className="tables-container" style={{ width: '70%'}}>
       {/* General Table */}
       <TableContainer component={Paper} style={{ width: '100%' }}>
         <Table style={{ }}>

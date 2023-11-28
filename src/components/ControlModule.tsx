@@ -41,9 +41,9 @@ const getFieldValue = (fieldName: string, state: any) => {
 const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onToggle }): ReactElement => {
     const [controlName, setControlName] = useState('');
   const [controlType, setControlType] = useState('');
-  const [postLikelihood, setLikelihood] = useState('');
-  const [postExposure, setExposure] = useState('');
-  const [postConsequence, setConsequence] = useState('');
+  const [postLikelihood, setPostLikelihood] = useState('');
+  const [postExposure, setPostExposure] = useState('');
+  const [postConsequence, setPostConsequence] = useState('');
   
   interface FieldErrors {
     [key: string]: FieldError;
@@ -97,30 +97,30 @@ const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onToggle }): Re
     validateField('controlType', newValue);
   };
 
-  const handleLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newLikelihood: string) => {
-    setLikelihood(newLikelihood);
-    validateField('postLikelihood', newLikelihood);
+  const handlePostLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPostLikelihood: string) => {
+    setPostLikelihood(newPostLikelihood);
+    validateField('postLikelihood', newPostLikelihood);
   };
 
 
-  const handleExposureChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newExposure: string) => {
-    setExposure(newExposure);
-    validateField('postExposure', newExposure);
+  const handlePostExposureChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPostExposure: string) => {
+    setPostExposure(newPostExposure);
+    validateField('postExposure', newPostExposure);
   };
 
 
-  const handleConsequenceChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newConsequence: string) => {
-    setConsequence(newConsequence);
-    validateField('postConsequence', newConsequence);
+  const handlePostConsequenceChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPostConsequence: string) => {
+    setPostConsequence(newPostConsequence);
+    validateField('postConsequence', newPostConsequence);
   };
 
   const resetForm = () => {
     console.log("Resetting form");
     setControlName('');
     setControlType('');
-    setLikelihood('');
-    setExposure('');
-    setConsequence('');
+    setPostLikelihood('');
+    setPostExposure('');
+    setPostConsequence('');
 
   setFieldErrors({
     controlName: { error: false, helperText: '' },
@@ -239,7 +239,7 @@ return (
       <ToggleButtonGroup
         value={postLikelihood}
         exclusive
-        onChange={handleLikelihoodChange}
+        onChange={handlePostLikelihoodChange}
       >
         {[1, 2, 3, 4, 5].map((num) => (
           <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
@@ -254,7 +254,7 @@ return (
         <ToggleButtonGroup
           value={postExposure}
           exclusive
-          onChange={handleExposureChange}
+          onChange={handlePostExposureChange}
         >
           {[1, 2, 3, 4, 5].map((num) => (
             <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
@@ -268,7 +268,7 @@ return (
         <ToggleButtonGroup
           value={postConsequence}
           exclusive
-          onChange={handleConsequenceChange}
+          onChange={handlePostConsequenceChange}
         >
           {[1, 2, 3, 4, 5].map((num) => (
             <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>

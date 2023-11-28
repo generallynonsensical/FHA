@@ -1,19 +1,21 @@
-// src/components/ModalModule.tsx
-
 import React from 'react';
 
+// Define the props for the ModalModule component
 interface ModalProps {
-  isOpen: boolean;
-  message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
+  isOpen: boolean;    // Indicates if the modal is open
+  message: string;    // Message to display in the modal
+  onConfirm: () => void;  // Function to handle the confirmation action
+  onCancel: () => void;   // Function to handle canceling the action
 }
 
+// ModalModule component
 const ModalModule: React.FC<ModalProps> = ({ isOpen, message, onConfirm, onCancel }) => {
+  // If the modal is not open, return null (don't render anything)
   if (!isOpen) {
     return null;
   }
 
+  // Render the modal content
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-4 rounded-lg">

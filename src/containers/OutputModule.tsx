@@ -1,13 +1,13 @@
-// src/containers/OutputModule.tsx
-
 import React from 'react';
 import TableModule from '../components/TableModule';
 
+// Define the OutputModule component
 const OutputModule: React.FC = () => {
-  // Your state management and logic will go here
+  // State management and logic for displaying output data will go here
 
   return (
     <div className="table-container">
+      {/* Render the TableModule component to display output data */}
       <TableModule />
     </div>
   );

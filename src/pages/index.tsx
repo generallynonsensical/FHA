@@ -1,30 +1,37 @@
-// src/pages/index.tsx
 import React, { useState } from 'react';
 import InputModule from '../containers/InputModule';
 import OutputModule from '../containers/OutputModule';
 
+// Define the main App component
 const App: React.FC = () => {
-  // State for accordion expansion
+  // State variables for accordion expansion
   const [isGeneralExpanded, setIsGeneralExpanded] = useState(false);
   const [isTaskExpanded, setIsTaskExpanded] = useState(false);
   const [isHazardExpanded, setIsHazardExpanded] = useState(false);
   const [isControlExpanded, setIsControlExpanded] = useState(false);
 
-  // Toggle functions for accordion
+  // Function to toggle the general accordion
   const toggleGeneral = () => setIsGeneralExpanded(!isGeneralExpanded);
+
+  // Function to toggle the task accordion
   const toggleTask = () => setIsTaskExpanded(!isTaskExpanded);
+
+  // Function to toggle the hazard accordion
   const toggleHazard = () => setIsHazardExpanded(!isHazardExpanded);
+
+  // Function to toggle the control accordion
   const toggleControl = () => setIsControlExpanded(!isControlExpanded);
 
-  // Handle form submission
+  // Function to handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Form submission logic here
+    // Form submission logic goes here
   };
 
+  // Render the main component
   return (
-    <div className="flex">
-      <div className="w-2/10 p-1">
+    <div className="flex items-stretch">
+      <div className="left-side w-1/4 p-1 ml-1">
         <InputModule
           isGeneralExpanded={isGeneralExpanded}
           isTaskExpanded={isTaskExpanded}
@@ -38,7 +45,7 @@ const App: React.FC = () => {
         />
       </div>
 
-      <div className="w-7/10 p-1">
+      <div className="right-side w-3/4 p-1 mr-1">
         <OutputModule />
       </div>
     </div>

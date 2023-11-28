@@ -7,6 +7,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 
+// Define an interface for field errors
 interface FieldError {
   error: boolean;
   helperText: string;
@@ -19,6 +20,7 @@ interface HazardModuleProps {
   onSubmit: (data: any, module: string) => void;
 }
 
+// Helper function to get a field's value based on its name
 const getFieldValue = (fieldName: string, state: any) => {
   switch (fieldName) {
     case 'hazardName':
@@ -36,6 +38,7 @@ const getFieldValue = (fieldName: string, state: any) => {
   }
 };
 
+// HazardModule component
 const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): ReactElement => {
   const [hazardName, setHazardName] = useState('');
   const [hazardType, setHazardType] = useState('');
@@ -43,10 +46,12 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
   const [preExposure, setPreExposure] = useState('');
   const [preConsequence, setPreConsequence] = useState('');
 
+  // Define an interface for field errors
   interface FieldErrors {
     [key: string]: FieldError;
   }
 
+  // Initialize field errors state
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({
     hazardName: { error: false, helperText: '' },
     hazardType: { error: false, helperText: '' },
@@ -55,6 +60,7 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
     preConsequence: { error: false, helperText: '' },
   });
 
+  // Function to validate a field's value
   const validateField = (fieldName: string, value: string | null, callback?: (isValid: boolean) => void): void => {
     console.log(`Validating field: ${fieldName} with value: ${value}`);
 
@@ -84,35 +90,39 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
     }
   };
 
+  // Handle change for the 'hazardName' field
   const handleHazardNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setHazardName(newValue);
     validateField('hazardName', newValue);
   };
 
+  // Handle change for the 'hazardType' field
   const handleHazardTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const newValue = event.target.value as string;
     setHazardType(newValue);
     validateField('hazardType', newValue);
   };
 
+  // Handle change for the 'preLikelihood' field
   const handlePreLikelihoodChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPreLikelihood: string) => {
     setPreLikelihood(newPreLikelihood);
     validateField('preLikelihood', newPreLikelihood);
   };
 
-
+  // Handle change for the 'preExposure' field
   const handlePreExposureChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPreExposure: string) => {
     setPreExposure(newPreExposure);
     validateField('preExposure', newPreExposure);
   };
 
-
+  // Handle change for the 'preConsequence' field
   const handlePreConsequenceChange = (event: React.MouseEvent<HTMLElement, MouseEvent>, newPreConsequence: string) => {
     setPreConsequence(newPreConsequence);
     validateField('preConsequence', newPreConsequence);
   };
-  
+
+  // Reset the form
   const resetForm = () => {
     console.log("Resetting form");
     setHazardName('');
@@ -121,37 +131,38 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
     setPreExposure('');
     setPreConsequence('');
 
-  setFieldErrors({
-    hazardName: { error: false, helperText: '' },
-    hazardType: { error: false, helperText: '' },
-    preLikelihood: { error: false, helperText: '' },
-    preExposure: { error: false, helperText: '' },
-    preConsequence: { error: false, helperText: '' },
-  });
-
-  
+    setFieldErrors({
+      hazardName: { error: false, helperText: '' },
+      hazardType: { error: false, helperText: '' },
+      preLikelihood: { error: false, helperText: '' },
+      preExposure: { error: false, helperText: '' },
+      preConsequence: { error: false, helperText: '' },
+    });
   };
 
-
-
+  // useEffect to log field errors when they are updated
   useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
+  // Handle change for the AccordionModule
   const handleAccordionChange = () => {
-    onToggle(); 
-    };
-    useEffect(() => {
+    onToggle();
+  };
+
+  // useEffect to log field errors when they are updated
+  useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
+  // Handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("Submitting form");
-  
+
     let isFormValid = true;
     const state = { hazardName, hazardType, preLikelihood, preExposure, preConsequence };
-  
+
     const fieldsToValidate = ['hazardName', 'hazardType', 'preLikelihood', 'preExposure', 'preConsequence'];
     fieldsToValidate.forEach((fieldName) => {
       const fieldValue = getFieldValue(fieldName, state);
@@ -159,95 +170,93 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
         isFormValid = isFormValid && isValid;
       });
     });
-  
+
     if (isFormValid) {
       // Form submission logic here...
       resetForm();
     }
   };
-  
-  
 
-return (
-  <AccordionModule
-    title="Hazard Information"
-    onSubmit={handleSubmit} 
-    buttonLabel="Submit Hazard"
-    expanded={expanded} 
-    onChange={handleAccordionChange} 
-    fieldErrors={fieldErrors}
-  >
-    <TextField
-      id="inputHazardName"
-      label="Hazard Name"
-      variant="outlined"
-      fullWidth
-      margin="normal"
-      value={hazardName}
-      onChange={handleHazardNameChange}
-      error={fieldErrors.hazardName.error}
-      helperText={fieldErrors.hazardName.helperText}
-      required
-    />
-
-    <TextField
-      select
-      fullWidth
-      margin="normal"
-      label="Select Hazard Type"
-      value={hazardType}
-      onChange={handleHazardTypeChange}
-      error={fieldErrors.hazardType.error}
-      helperText={fieldErrors.hazardType.helperText}
+  return (
+    <AccordionModule
+      title="Hazard Information"
+      onSubmit={handleSubmit}
+      buttonLabel="Submit Hazard"
+      expanded={expanded}
+      onChange={handleAccordionChange}
+      fieldErrors={fieldErrors}
     >
-      <MenuItem value="Health">Health</MenuItem>
-      <MenuItem value="Safety">Safety</MenuItem>
-    </TextField>
+      <TextField
+        id="inputHazardName"
+        label="Hazard Name"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={hazardName}
+        onChange={handleHazardNameChange}
+        error={fieldErrors.hazardName.error}
+        helperText={fieldErrors.hazardName.helperText}
+        required
+      />
 
-    <FormControl fullWidth margin="normal" error={fieldErrors.preLikelihood.error}>
-      <Typography>Likelihood of Occurrence</Typography>
-      <ToggleButtonGroup
-        value={preLikelihood}
-        exclusive
-        onChange={handlePreLikelihoodChange}
+      <TextField
+        select
+        fullWidth
+        margin="normal"
+        label="Select Hazard Type"
+        value={hazardType}
+        onChange={handleHazardTypeChange}
+        error={fieldErrors.hazardType.error}
+        helperText={fieldErrors.hazardType.helperText}
       >
-        {[1, 2, 3, 4, 5].map((num) => (
-          <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
-        ))}
-      </ToggleButtonGroup>
-      <Typography variant="caption" color="error">{fieldErrors.preLikelihood.helperText}</Typography>
-    </FormControl>
+        <MenuItem value="Health">Health</MenuItem>
+        <MenuItem value="Safety">Safety</MenuItem>
+      </TextField>
 
-    <FormControl fullWidth margin="normal" error={fieldErrors.preExposure.error}>
-      <Typography>Exposure to Hazard</Typography>
-      <ToggleButtonGroup
-        value={preExposure}
-        exclusive
-        onChange={handlePreExposureChange}
-      >
-        {[1, 2, 3, 4, 5].map((num) => (
-          <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
-        ))}
-      </ToggleButtonGroup>
-      <Typography variant="caption" color="error">{fieldErrors.preExposure.helperText}</Typography>
-    </FormControl>
+      <FormControl fullWidth margin="normal" error={fieldErrors.preLikelihood.error}>
+        <Typography>Likelihood of Occurrence</Typography>
+        <ToggleButtonGroup
+          value={preLikelihood}
+          exclusive
+          onChange={handlePreLikelihoodChange}
+        >
+          {[1, 2, 3, 4, 5].map((num) => (
+            <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+        <Typography variant="caption" color="error">{fieldErrors.preLikelihood.helperText}</Typography>
+      </FormControl>
 
-    <FormControl fullWidth margin="normal" error={fieldErrors.preConsequence.error}>
-      <Typography>Consequence of Exposure</Typography>
-      <ToggleButtonGroup
-        value={preConsequence}
-        exclusive
-        onChange={handlePreConsequenceChange}
-      >
-        {[1, 2, 3, 4, 5].map((num) => (
-          <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
-        ))}
-      </ToggleButtonGroup>
-      <Typography variant="caption" color="error">{fieldErrors.preConsequence.helperText}</Typography>
-    </FormControl>
+      <FormControl fullWidth margin="normal" error={fieldErrors.preExposure.error}>
+        <Typography>Exposure to Hazard</Typography>
+        <ToggleButtonGroup
+          value={preExposure}
+          exclusive
+          onChange={handlePreExposureChange}
+        >
+          {[1, 2, 3, 4, 5].map((num) => (
+            <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+        <Typography variant="caption" color="error">{fieldErrors.preExposure.helperText}</Typography>
+      </FormControl>
 
-</AccordionModule>
-)}
+      <FormControl fullWidth margin="normal" error={fieldErrors.preConsequence.error}>
+        <Typography>Consequence of Exposure</Typography>
+        <ToggleButtonGroup
+          value={preConsequence}
+          exclusive
+          onChange={handlePreConsequenceChange}
+        >
+          {[1, 2, 3, 4, 5].map((num) => (
+            <ToggleButton key={num} value={String(num)}>{num}</ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+        <Typography variant="caption" color="error">{fieldErrors.preConsequence.helperText}</Typography>
+      </FormControl>
 
+    </AccordionModule>
+  );
+};
 
 export default HazardModule;

@@ -1,23 +1,20 @@
-// src/components/TableModule.tsx
 import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
+// TableModule component
 const TableModule: React.FC = () => {
   return (
-    <div className="tables-container" style={{ width: '70%'}}>
+    <div className="tables-container" style={{ width: '100%'}}>
       {/* General Table */}
-      <TableContainer component={Paper} style={{ width: '100%' }}>
-        <Table style={{ }}>
+      <TableContainer component={Paper}>
+        <Table style={{}}>
           <TableHead>
             <TableRow>
               <TableCell align="left">Company Name: </TableCell>
               <TableCell colSpan={2}></TableCell>
               <TableCell align="right">Formal Hazard Assessment</TableCell>
             </TableRow>
-            <TableRow>
-              {/* Empty row */}
-              <TableCell colSpan={4}></TableCell>
-            </TableRow>
+            
             <TableRow>
               <TableCell>Created By: </TableCell>
               <TableCell>Date Created: </TableCell>
@@ -33,7 +30,7 @@ const TableModule: React.FC = () => {
 
       {/* Evaluation Table */}
       <TableContainer component={Paper} style={{ width: '100%' }}>
-        <Table style={{  }}>
+        <Table style={{}}>
           <TableHead>
             <TableRow>
               <TableCell>Task ID</TableCell>

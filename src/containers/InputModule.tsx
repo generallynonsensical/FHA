@@ -1,10 +1,10 @@
-// src/containers/InputModule.tsx
-import React, { useState, useEffect, ReactElement } from 'react';
+import React from 'react';
 import TaskModule from '@/components/TaskModule';
 import HazardModule from '@/components/HazardModule';
 import ControlModule from '@/components/ControlModule';
 import GeneralModule from '@/components/GeneralModule';
 
+// Define the props type for InputModule
 interface InputModuleProps {
   isGeneralExpanded: boolean;
   isTaskExpanded: boolean;
@@ -17,6 +17,7 @@ interface InputModuleProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
+// InputModule component
 const InputModule: React.FC<InputModuleProps> = ({
   isGeneralExpanded,
   isTaskExpanded,
@@ -27,30 +28,36 @@ const InputModule: React.FC<InputModuleProps> = ({
   toggleHazard,
   toggleControl,
   handleSubmit
-  }) => {
+}) => {
   return (
     <div className="accordion-container">
+      {/* Render the GeneralModule */}
       <GeneralModule 
         expanded={isGeneralExpanded} 
         onToggle={toggleGeneral} 
         onSubmit={handleSubmit} 
       />
+      
+      {/* Render the TaskModule */}
       <TaskModule 
-      expanded={isTaskExpanded} 
-      onToggle={toggleTask} 
-      onSubmit={handleSubmit} 
+        expanded={isTaskExpanded} 
+        onToggle={toggleTask} 
+        onSubmit={handleSubmit} 
       />
 
+      {/* Render the HazardModule */}
       <HazardModule 
-      expanded={isHazardExpanded} 
-      onToggle={toggleHazard} 
-      onSubmit={handleSubmit} 
+        expanded={isHazardExpanded} 
+        onToggle={toggleHazard} 
+        onSubmit={handleSubmit} 
       />
       
+      {/* Render the ControlModule */}
       <ControlModule 
-      expanded={isControlExpanded} 
-      onToggle={toggleControl} 
-      onSubmit={handleSubmit}/>
+        expanded={isControlExpanded} 
+        onToggle={toggleControl} 
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 };

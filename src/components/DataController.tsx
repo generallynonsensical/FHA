@@ -6,39 +6,42 @@ import HazardModule from './HazardModule';
 import ControlModule from './ControlModule';
 
 interface DataControllerProps {
-    // You can add props here if needed, like callbacks for data submission success or error
+    // Add props as needed
 }
 
+// DataController component manages accordion modules and their state
 const DataController: React.FC<DataControllerProps> = (props) => {
     // State for managing accordion expanded status
     const [isTaskAccordionExpanded, setTaskAccordionExpanded] = useState(true);
     const [isHazardAccordionExpanded, setHazardAccordionExpanded] = useState(false);
     const [isControlAccordionExpanded, setControlAccordionExpanded] = useState(false);
 
-    // Functions to toggle the state of each accordion
+    // Function to toggle the state of the Task accordion
     const toggleTaskAccordion = () => {
-        console.log('toggleTaskAccordion called');
         setTaskAccordionExpanded(!isTaskAccordionExpanded);
         setHazardAccordionExpanded(false);
         setControlAccordionExpanded(false);
     };
+
+    // Function to toggle the state of the Hazard accordion
     const toggleHazardAccordion = () => {
-        console.log('toggleHazardAccordion called');
         setTaskAccordionExpanded(false);
         setHazardAccordionExpanded(!isHazardAccordionExpanded);
         setControlAccordionExpanded(false);
     };
+
+    // Function to toggle the state of the Control accordion
     const toggleControlAccordion = () => {
-        console.log('toggleControlAccordion called');
         setTaskAccordionExpanded(false);
         setHazardAccordionExpanded(false);
         setControlAccordionExpanded(!isControlAccordionExpanded);
     };
 
-    // Generic handler for submissions; adapt as necessary
+    // Generic handler for form submissions; determines accordion behavior
     const handleSubmit = async (data: any, module: string) => {
         console.log("Submitting form for module:", module);
-                // Validate data
+
+        // Validate data and manage accordion state transitions
         if (module === 'task') {
             setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(true);
@@ -52,10 +55,9 @@ const DataController: React.FC<DataControllerProps> = (props) => {
         }
     };
 
-
     // Function to fetch data (e.g., tasks, hazards, controls)
     const fetchData = async () => {
-        // Implement logic to retrieve data
+        // Implement logic to retrieve data (e.g., using an API)
         // Example: const tasks = await api.fetchTasks();
     };
 

@@ -141,3 +141,33 @@ Next Steps:
     Refinement and Finalization:
         Refine the code based on the findings from debugging and testing.
         Finalize the accordion functionality to match the intended behavior of your SPA.
+
+++++++++++++++++++++
+
+Summary of Today's Work (Thursday, 11-30-23):
+
+Debugged an issue with the GeneralModule accordion not being expanded on load. Found that the isGeneralAccordionExpanded state variable was correctly initialized and passed as a prop to the InputModule component.
+
+Discussed the App component and its state variables. Noted that the state update functions (setIsGeneralAccordionExpanded, setIsTaskExpanded, setIsHazardExpanded, setIsControlExpanded) were not being used, which meant that the state of the accordions could not be updated after the initial render.
+
+Updated the App component to pass the state update functions as props to the InputModule component.
+
+Updated the InputModule component to accept the state update functions as props and use them to update the state of the accordions.
+
+Encountered a TypeScript error because the InputModuleProps type did not include the state update functions. Updated the InputModuleProps type to fix this.
+
+Encountered another TypeScript error because Dispatch and SetStateAction were not recognized. Fixed this by importing these types from the react module.
+
+Reviewed the AccordionModule component, which is a reusable component for creating accordions.
+
+Next Steps:
+
+Test the InputModule component to ensure that the accordions can be expanded and collapsed as expected.
+
+Create a database for the submitted accordion information
+
+Implement the handleSubmit function in the App component to handle form submission.
+
+Update the AccordionModule component to use the setIsGeneralAccordionExpanded, setIsTaskExpanded, setIsHazardExpanded, and setIsControlExpanded functions to update the state of the accordions when the form is submitted.
+
+Test the AccordionModule component to ensure that the form submission works as expected.

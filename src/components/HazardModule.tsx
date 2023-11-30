@@ -16,7 +16,6 @@ interface FieldError {
 // Define the props type for HazardModule
 interface HazardModuleProps {
   expanded: boolean;
-  onToggle: () => void;
   onSubmit: (data: any, module: string) => void;
 }
 
@@ -39,7 +38,7 @@ const getFieldValue = (fieldName: string, state: any) => {
 };
 
 // HazardModule component
-const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): ReactElement => {
+const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onSubmit }): ReactElement => {
   const [hazardName, setHazardName] = useState('');
   const [hazardType, setHazardType] = useState('');
   const [preLikelihood, setPreLikelihood] = useState('');
@@ -145,15 +144,7 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
-  // Handle change for the AccordionModule
-  const handleAccordionChange = () => {
-    onToggle();
-  };
 
-  // useEffect to log field errors when they are updated
-  useEffect(() => {
-    console.log("Field errors updated:", fieldErrors);
-  }, [fieldErrors]);
 
   // Handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -173,6 +164,7 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
 
     if (isFormValid) {
       // Form submission logic here...
+      onSubmit(state, 'hazardModule');
       resetForm();
     }
   };

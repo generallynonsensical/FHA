@@ -14,7 +14,6 @@ interface FieldError {
 // Define the props for the GeneralModule component
 interface GeneralModuleProps {
   expanded: boolean;
-  onToggle: () => void;
   onSubmit: (data: any, module: string) => void;
 }
 
@@ -35,7 +34,7 @@ const getFieldValue = (fieldName: string, state: any) => {
 };
 
 // GeneralModule component
-const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSubmit }): ReactElement => {
+const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded,  onSubmit }): ReactElement => {
   const [createdBy, setCreatedBy] = useState('');
   const [dateCreated, setDateCreated] = useState(dayjs(new Date()));
   const [companyName, setCompanyName] = useState('');
@@ -134,14 +133,10 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
-  // Handle change for the AccordionModule
-  const handleAccordionChange = () => {
-    onToggle();
-  };
+ 
 
   // Handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     console.log("Submitting form");
 
     let isFormValid = true;
@@ -157,6 +152,7 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
 
     if (isFormValid) {
       // Form submission logic here...
+      onSubmit(state, 'generalModule');
       resetForm();
     }
   };

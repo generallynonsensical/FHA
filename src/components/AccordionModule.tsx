@@ -10,6 +10,8 @@ interface AccordionModuleProps {
 }
 
 const AccordionModule: React.FC<AccordionModuleProps> = ({ title, children, onSubmit, buttonLabel, expanded }) => {
+  
+
   return (
     <Accordion expanded={expanded}>
       <AccordionSummary>

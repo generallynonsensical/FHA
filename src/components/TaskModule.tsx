@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import AccordionModule from './AccordionModule';
 import TextField from '@mui/material/TextField';
-import { on } from 'events';
+
 
 // Define the interface for field errors
 interface FieldError {
@@ -14,14 +14,24 @@ interface FieldErrors {
   [key: string]: FieldError;
 }
 
+// Helper function to get a field's value based on its name
+const getFieldValue = (fieldName: string, state: any) => {
+  switch (fieldName) {
+    case 'taskName':
+      return state.taskName;
+
+    default:
+      return '';
+  }
+};
+
 // Define the props type for TaskModule
 interface TaskModuleProps {
   expanded: boolean;
-  onToggle: () => void;
   onSubmit: (data: any, module: string) => void;
 }
 
-const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit }) => {
+const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onSubmit }) => {
   const [taskName, setTaskName] = useState('');
 
   // Initialize field errors state for taskName
@@ -54,36 +64,33 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit })
     setFieldErrors({ taskName: { error: false, helperText: '' } });
   };
 
-  // Perform form submission and return whether it's valid
-  const performFormSubmission = (): boolean => {
-    const isTaskNameValid = validateField(taskName);
-
-    if (isTaskNameValid) {
-      console.log("Submitting form with Task Name:", taskName);
-      // Form submission logic specific to TaskModule here...
-      resetForm();
-      return true;
-    }
-    return false;
-  };
-
-  // Handle change for the AccordionModule
-  const handleAccordionChange = () => {
-    onToggle();
-  };
-
-  // useEffect to log field errors when they are updated
+   // useEffect to log field errors when they are updated
   useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
-  // Handle form submission
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (performFormSubmission()) {
-      onSubmit(taskName, 'task'); // Pass 'task' as the second argument
-    }
-  };
+
+
+    // Handle form submission
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      console.log("Submitting form");
+    
+      let isFormValid = true;
+      const state = { taskName }
+    
+      const fieldsToValidate = ['taskName'];
+      fieldsToValidate.forEach((fieldName) => {
+        const fieldValue = getFieldValue(fieldName, state);
+        const isValid = validateField(fieldValue);
+        isFormValid = isFormValid && isValid;
+      });
+    
+      if (isFormValid) {
+        // Form submission logic here...
+        onSubmit(state, 'taskModule');
+        resetForm();
+      }
+    };
 
   return (
     <AccordionModule

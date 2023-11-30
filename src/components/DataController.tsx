@@ -15,64 +15,32 @@ const DataController: React.FC = () => {
     const [isHazardAccordionExpanded, setHazardAccordionExpanded] = useState(false);
     const [isControlAccordionExpanded, setControlAccordionExpanded] = useState(false);
 
-    // Function to toggle the state of the General accordion
-    const toggleGeneralAccordion = () => {
-        setGeneralAccordionExpanded(!isGeneralAccordionExpanded);
-        setTaskAccordionExpanded(false);
-        setHazardAccordionExpanded(false);
-        setControlAccordionExpanded(false);
-    };
 
-    // Function to toggle the state of the Task accordion
-    const toggleTaskAccordion = () => {
-        setGeneralAccordionExpanded(false);
-        setTaskAccordionExpanded(!isTaskAccordionExpanded);
-        setHazardAccordionExpanded(false);
-        setControlAccordionExpanded(false);
-    };
-
-    // Function to toggle the state of the Hazard accordion
-    const toggleHazardAccordion = () => {
-        setGeneralAccordionExpanded(false);
-        setTaskAccordionExpanded(false);
-        setHazardAccordionExpanded(!isHazardAccordionExpanded);
-        setControlAccordionExpanded(false);
-    };
-
-    // Function to toggle the state of the Control accordion
-    const toggleControlAccordion = () => {
-        setGeneralAccordionExpanded(false);
-        setTaskAccordionExpanded(false);
-        setHazardAccordionExpanded(false);
-        setControlAccordionExpanded(!isControlAccordionExpanded);
-    };
-
-    // Generic handler for form submissions; determines accordion behavior
     const handleSubmit = async (data: any, module: string) => {
         console.log("Submitting form for module:", module);
-    
+
         // Manage accordion state transitions
-        if (module === 'general') {
+        if (module === 'generalModule') {
             setGeneralAccordionExpanded(false);
             setTaskAccordionExpanded(true);
             setHazardAccordionExpanded(false);
             setControlAccordionExpanded(false);
-        } else if (module === 'task') {
+        } else if (module === 'taskModule') {
             setGeneralAccordionExpanded(false);
             setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(true);
             setControlAccordionExpanded(false);
-        } else if (module === 'hazard') {
+        } else if (module === 'hazardModule') {
             setGeneralAccordionExpanded(false);
             setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(false);
             setControlAccordionExpanded(true);
-        } else if (module === 'control') {
+        } else if (module === 'controlModule') {
             // Decide what to do after control submission
             // For example, you might want to reopen the GeneralModule or navigate elsewhere
             setGeneralAccordionExpanded(false);
             setTaskAccordionExpanded(false);
-            setHazardAccordionExpanded(false);
+            setHazardAccordionExpanded(true);
             setControlAccordionExpanded(false);
         }
     };
@@ -94,24 +62,20 @@ const DataController: React.FC = () => {
         <div>
             <GeneralModule 
                 expanded={isGeneralAccordionExpanded} 
-                onToggle={toggleGeneralAccordion}
-                onSubmit={(data) => handleSubmit(data, 'general')}
+                onSubmit={(data) => handleSubmit(data, 'generalModule')}
             />
 
             <TaskModule 
                 expanded={isTaskAccordionExpanded} 
-                onToggle={toggleTaskAccordion}
-                onSubmit={(data) => handleSubmit(data, 'task')}
+                onSubmit={(data) => handleSubmit(data, 'taskModule')}
             />
             <HazardModule 
                 expanded={isHazardAccordionExpanded} 
-                onToggle={toggleHazardAccordion}
-                onSubmit={(data) => handleSubmit(data, 'hazard')} 
+                onSubmit={(data) => handleSubmit(data, 'hazardModule')} 
             />
             <ControlModule 
                 expanded={isControlAccordionExpanded} 
-                onToggle={toggleControlAccordion}
-                onSubmit={(data) => handleSubmit(data, 'control')} 
+                onSubmit={(data) => handleSubmit(data, 'controlModule')} 
             />
             
             {/* Add other modules as needed */}

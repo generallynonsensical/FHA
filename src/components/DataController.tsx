@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
-// Import your accordion modules
 import GeneralModule from './GeneralModule';
 import TaskModule from './TaskModule';
 import HazardModule from './HazardModule';
@@ -11,8 +9,7 @@ interface DataControllerProps {
 }
 
 // DataController component manages accordion modules and their state
-const DataController: React.FC<DataControllerProps> = (props) => {
-    // State for managing accordion expanded status
+const DataController: React.FC = () => {
     const [isGeneralAccordionExpanded, setGeneralAccordionExpanded] = useState(true);
     const [isTaskAccordionExpanded, setTaskAccordionExpanded] = useState(false);
     const [isHazardAccordionExpanded, setHazardAccordionExpanded] = useState(false);
@@ -53,21 +50,30 @@ const DataController: React.FC<DataControllerProps> = (props) => {
     // Generic handler for form submissions; determines accordion behavior
     const handleSubmit = async (data: any, module: string) => {
         console.log("Submitting form for module:", module);
-
-        // Validate data and manage accordion state transitions
+    
+        // Manage accordion state transitions
         if (module === 'general') {
             setGeneralAccordionExpanded(false);
             setTaskAccordionExpanded(true);
+            setHazardAccordionExpanded(false);
+            setControlAccordionExpanded(false);
         } else if (module === 'task') {
+            setGeneralAccordionExpanded(false);
             setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(true);
+            setControlAccordionExpanded(false);
         } else if (module === 'hazard') {
+            setGeneralAccordionExpanded(false);
+            setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(false);
             setControlAccordionExpanded(true);
         } else if (module === 'control') {
+            // Decide what to do after control submission
+            // For example, you might want to reopen the GeneralModule or navigate elsewhere
+            setGeneralAccordionExpanded(false);
+            setTaskAccordionExpanded(false);
+            setHazardAccordionExpanded(false);
             setControlAccordionExpanded(false);
-            // Decide what to do after control submission, e.g., reopen Task
-            setGeneralAccordionExpanded(true);
         }
     };
 

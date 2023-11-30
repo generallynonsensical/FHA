@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Typography, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+
 // Define props for AccordionModule component
 interface AccordionModuleProps {
   title: string;                   // The title of the accordion
@@ -10,14 +11,23 @@ interface AccordionModuleProps {
   buttonLabel: string;            // Label for the submit button
   expanded: boolean;              // Boolean to control accordion expansion state
   onChange: () => void;           // Function to handle accordion state change
-  
+  onToggle: () => void;           // Function to handle accordion state change
   fieldErrors: any;               // Error information related to form fields
 }
 
 // AccordionModule component definition
-const AccordionModule: React.FC<AccordionModuleProps> = ({ title, children, onSubmit, buttonLabel, expanded, onChange, fieldErrors }) => {
+const AccordionModule: React.FC<AccordionModuleProps> = ({ title, children, onSubmit, buttonLabel, expanded, onChange, onToggle, fieldErrors }) => {
   return (
-    <Accordion onChange={onChange}>
+    <Accordion 
+      expanded={expanded}
+      onChange={() => {
+        if (expanded) {
+          // Perform action when accordion is expanded
+        } else {
+          // Perform action when accordion is collapsed
+        }
+      }}
+>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>{title}</Typography>
       </AccordionSummary>

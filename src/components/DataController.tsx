@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Import your accordion modules
+import GeneralModule from './GeneralModule';
 import TaskModule from './TaskModule';
 import HazardModule from './HazardModule';
 import ControlModule from './ControlModule';
@@ -12,12 +13,22 @@ interface DataControllerProps {
 // DataController component manages accordion modules and their state
 const DataController: React.FC<DataControllerProps> = (props) => {
     // State for managing accordion expanded status
-    const [isTaskAccordionExpanded, setTaskAccordionExpanded] = useState(true);
+    const [isGeneralAccordionExpanded, setGeneralAccordionExpanded] = useState(true);
+    const [isTaskAccordionExpanded, setTaskAccordionExpanded] = useState(false);
     const [isHazardAccordionExpanded, setHazardAccordionExpanded] = useState(false);
     const [isControlAccordionExpanded, setControlAccordionExpanded] = useState(false);
 
+    // Function to toggle the state of the General accordion
+    const toggleGeneralAccordion = () => {
+        setGeneralAccordionExpanded(!isGeneralAccordionExpanded);
+        setTaskAccordionExpanded(false);
+        setHazardAccordionExpanded(false);
+        setControlAccordionExpanded(false);
+    };
+
     // Function to toggle the state of the Task accordion
     const toggleTaskAccordion = () => {
+        setGeneralAccordionExpanded(false);
         setTaskAccordionExpanded(!isTaskAccordionExpanded);
         setHazardAccordionExpanded(false);
         setControlAccordionExpanded(false);
@@ -25,6 +36,7 @@ const DataController: React.FC<DataControllerProps> = (props) => {
 
     // Function to toggle the state of the Hazard accordion
     const toggleHazardAccordion = () => {
+        setGeneralAccordionExpanded(false);
         setTaskAccordionExpanded(false);
         setHazardAccordionExpanded(!isHazardAccordionExpanded);
         setControlAccordionExpanded(false);
@@ -32,6 +44,7 @@ const DataController: React.FC<DataControllerProps> = (props) => {
 
     // Function to toggle the state of the Control accordion
     const toggleControlAccordion = () => {
+        setGeneralAccordionExpanded(false);
         setTaskAccordionExpanded(false);
         setHazardAccordionExpanded(false);
         setControlAccordionExpanded(!isControlAccordionExpanded);
@@ -42,7 +55,10 @@ const DataController: React.FC<DataControllerProps> = (props) => {
         console.log("Submitting form for module:", module);
 
         // Validate data and manage accordion state transitions
-        if (module === 'task') {
+        if (module === 'general') {
+            setGeneralAccordionExpanded(false);
+            setTaskAccordionExpanded(true);
+        } else if (module === 'task') {
             setTaskAccordionExpanded(false);
             setHazardAccordionExpanded(true);
         } else if (module === 'hazard') {
@@ -51,7 +67,7 @@ const DataController: React.FC<DataControllerProps> = (props) => {
         } else if (module === 'control') {
             setControlAccordionExpanded(false);
             // Decide what to do after control submission, e.g., reopen Task
-            setTaskAccordionExpanded(true);
+            setGeneralAccordionExpanded(true);
         }
     };
 
@@ -70,6 +86,12 @@ const DataController: React.FC<DataControllerProps> = (props) => {
 
     return (
         <div>
+            <GeneralModule 
+                expanded={isGeneralAccordionExpanded} 
+                onToggle={toggleGeneralAccordion}
+                onSubmit={(data) => handleSubmit(data, 'general')}
+            />
+
             <TaskModule 
                 expanded={isTaskAccordionExpanded} 
                 onToggle={toggleTaskAccordion}
@@ -85,9 +107,10 @@ const DataController: React.FC<DataControllerProps> = (props) => {
                 onToggle={toggleControlAccordion}
                 onSubmit={(data) => handleSubmit(data, 'control')} 
             />
+            
             {/* Add other modules as needed */}
         </div>
     );
-}; 
+};
 
 export default DataController;

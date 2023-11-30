@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OHS123 - Under Construction</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            margin: 0;
+            display: flex; /* Use flex layout */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            min-height: 100vh; /* Full viewport height */
+            background:  #1976d2;
+            color: white;
+            position: relative;
+            padding: 0; /* Remove padding */
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('safety-bg1.jpg') center/cover no-repeat; /*Image by Freepik*/
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            position: relative; /* Above the background */
+            z-index: 2;
+        }
+
+        h1 {
+            color: #1976d2;
+        }
+
+        p {
+            color: #333;
+        }
+
+        .mui-button {
+            font-size: 16px;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 4px;
+            background-color: #1976d2;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .mui-button:hover {
+            background-color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span>OHS</span>
+            <span class="mui-arrow">→</span>
+            <span>123</span>
+        </h1>
+        <p>We're working hard to create an amazing experience for you. Our website is currently under construction but we'll be ready soon. Stay tuned!</p>
+        <button class="mui-button">Notify Me</button>
+    </div>
+</body>
+</html>

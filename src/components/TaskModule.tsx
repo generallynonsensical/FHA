@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AccordionModule from './AccordionModule';
 import TextField from '@mui/material/TextField';
+import { on } from 'events';
 
 // Define the interface for field errors
 interface FieldError {
@@ -91,6 +92,7 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit })
       buttonLabel="Submit Task"
       expanded={expanded}
       onChange={handleAccordionChange}
+      onToggle={onToggle}
       fieldErrors={fieldErrors}
     >
       {/* Task Name input field */}

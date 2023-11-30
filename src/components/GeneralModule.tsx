@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import DataController from './DataController';
 
 // Define an interface for field errors
 interface FieldError {
@@ -139,11 +140,6 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
     onToggle();
   };
 
-  // useEffect to log field errors when they are updated
-  useEffect(() => {
-    console.log("Field errors updated:", fieldErrors);
-  }, [fieldErrors]);
-
   // Handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -173,6 +169,7 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
       buttonLabel="Submit"
       expanded={expanded}
       onChange={handleAccordionChange}
+      onToggle={onToggle} // Pass the onToggle prop to AccordionModule
       fieldErrors={fieldErrors}
     >
       <TextField

@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import FormControl from '@mui/material/FormControl';
+import { on } from 'events';
 
 interface FieldError {
   error: boolean;
@@ -201,6 +202,7 @@ return (
     buttonLabel="Submit Control"
     expanded={expanded}
     onChange={handleAccordionChange}
+    onToggle={onToggle}
     fieldErrors={fieldErrors}
     >
     <TextField

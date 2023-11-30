@@ -1,61 +1,62 @@
 import React from 'react';
+import GeneralModule from '@/components/GeneralModule';
 import TaskModule from '@/components/TaskModule';
 import HazardModule from '@/components/HazardModule';
 import ControlModule from '@/components/ControlModule';
-import GeneralModule from '@/components/GeneralModule';
+
 
 // Define the props type for InputModule
 interface InputModuleProps {
-  isGeneralExpanded: boolean;
-  isTaskExpanded: boolean;
-  isHazardExpanded: boolean;
-  isControlExpanded: boolean;
-  toggleGeneral: () => void;
-  toggleTask: () => void;
-  toggleHazard: () => void;
-  toggleControl: () => void;
+  isGeneralAccordionExpanded: boolean;
+  isTaskAccordionExpanded: boolean;
+  isHazardAccordionExpanded: boolean;
+  isControlAccordionExpanded: boolean;
+  toggleGeneralAccordion: () => void;
+  toggleTaskAccordion: () => void;
+  toggleHazardAccordion: () => void;
+  toggleControlAccordion: () => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 // InputModule component
 const InputModule: React.FC<InputModuleProps> = ({
-  isGeneralExpanded,
-  isTaskExpanded,
-  isHazardExpanded,
-  isControlExpanded,
-  toggleGeneral,
-  toggleTask,
-  toggleHazard,
-  toggleControl,
+  isGeneralAccordionExpanded,
+  isTaskAccordionExpanded,
+  isHazardAccordionExpanded,
+  isControlAccordionExpanded,
+  toggleGeneralAccordion,
+  toggleTaskAccordion,
+  toggleHazardAccordion,
+  toggleControlAccordion,
   handleSubmit
 }) => {
   return (
     <div className="accordion-container">
       {/* Render the GeneralModule */}
       <GeneralModule 
-        expanded={isGeneralExpanded} 
-        onToggle={toggleGeneral} 
+        expanded={isGeneralAccordionExpanded} 
+        onToggle={(toggleGeneralAccordion)} 
         onSubmit={handleSubmit} 
       />
       
       {/* Render the TaskModule */}
       <TaskModule 
-        expanded={isTaskExpanded} 
-        onToggle={toggleTask} 
+        expanded={isTaskAccordionExpanded} 
+        onToggle={toggleTaskAccordion} 
         onSubmit={handleSubmit} 
       />
 
       {/* Render the HazardModule */}
       <HazardModule 
-        expanded={isHazardExpanded} 
-        onToggle={toggleHazard} 
+        expanded={isHazardAccordionExpanded} 
+        onToggle={toggleHazardAccordion} 
         onSubmit={handleSubmit} 
       />
       
       {/* Render the ControlModule */}
       <ControlModule 
-        expanded={isControlExpanded} 
-        onToggle={toggleControl} 
+        expanded={isControlAccordionExpanded} 
+        onToggle={toggleControlAccordion} 
         onSubmit={handleSubmit}
       />
     </div>

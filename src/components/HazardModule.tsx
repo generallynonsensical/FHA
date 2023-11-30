@@ -183,9 +183,7 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onToggle }): Reac
       onSubmit={handleSubmit}
       buttonLabel="Submit Hazard"
       expanded={expanded}
-      onChange={handleAccordionChange}
-      onToggle={onToggle}
-      fieldErrors={fieldErrors}
+
     >
       <TextField
         id="inputHazardName"

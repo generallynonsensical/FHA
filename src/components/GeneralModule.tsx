@@ -167,9 +167,6 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded, onToggle, onSub
       onSubmit={handleSubmit}
       buttonLabel="Submit"
       expanded={expanded}
-      onChange={handleAccordionChange}
-      onToggle={onToggle} // Pass the onToggle prop to AccordionModule
-      fieldErrors={fieldErrors}
     >
       <TextField
         id="inputCreatedBy"

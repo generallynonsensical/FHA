@@ -91,9 +91,7 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onToggle, onSubmit })
       onSubmit={handleSubmit}
       buttonLabel="Submit Task"
       expanded={expanded}
-      onChange={handleAccordionChange}
-      onToggle={onToggle}
-      fieldErrors={fieldErrors}
+ 
     >
       {/* Task Name input field */}
       <TextField

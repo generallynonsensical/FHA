@@ -201,9 +201,7 @@ return (
     onSubmit={handleSubmit} 
     buttonLabel="Submit Control"
     expanded={expanded}
-    onChange={handleAccordionChange}
-    onToggle={onToggle}
-    fieldErrors={fieldErrors}
+
     >
     <TextField
       id="inputControlName"

@@ -5,7 +5,12 @@ import OutputModule from '../containers/OutputModule';
 // Define the main App component
 const App: React.FC = () => {
 
-
+  // Define the handleSubmit function
+  const handleSubmit = (module: string) => {
+    // Implementation of what should happen when a form is submitted
+    console.log(`Form submitted for module: ${module}`);
+    // Add your form submission logic here
+  };
 
   // Render the main component
   return (
@@ -20,7 +25,7 @@ const App: React.FC = () => {
           setIsHazardAccordionExpanded={() => {}}
           isControlAccordionExpanded={false}
           setIsControlAccordionExpanded={() => {}}
-
+          handleSubmit={handleSubmit} // Pass the handleSubmit function as a prop
         />
       </div>
 

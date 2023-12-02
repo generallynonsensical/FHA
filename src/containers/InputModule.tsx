@@ -14,8 +14,10 @@ interface InputModuleProps {
   setIsHazardAccordionExpanded: Dispatch<SetStateAction<boolean>>;
   isControlAccordionExpanded: boolean;
   setIsControlAccordionExpanded: Dispatch<SetStateAction<boolean>>;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (module: string) => void;
+
 }
+
 
 // InputModule component
 const InputModule: React.FC<InputModuleProps> = ({
@@ -27,32 +29,36 @@ const InputModule: React.FC<InputModuleProps> = ({
   setIsHazardAccordionExpanded,
   isControlAccordionExpanded,
   setIsControlAccordionExpanded,
-  handleSubmit
+  handleSubmit,
 }) => {
+
+
+  
   return (
     <div className="accordion-container">
       {/* Render the GeneralModule */}
       <GeneralModule 
         expanded={isGeneralAccordionExpanded} 
-        onSubmit={handleSubmit} 
+        onSubmit={() => handleSubmit('generalModule')}
       />
       
       {/* Render the TaskModule */}
       <TaskModule 
         expanded={isTaskAccordionExpanded} 
-        onSubmit={handleSubmit} 
+        onSubmit={() => handleSubmit('taskModule')}
       />
-
       {/* Render the HazardModule */}
       <HazardModule 
         expanded={isHazardAccordionExpanded} 
-        onSubmit={handleSubmit} 
+        onSubmit={() => handleSubmit('hazardModule')}
       />
-      
       {/* Render the ControlModule */}
       <ControlModule 
         expanded={isControlAccordionExpanded} 
-        onSubmit={handleSubmit}
+
+        onSubmit={() => handleSubmit('controlModule')}
+        onOpenHazard={() => setIsHazardAccordionExpanded(true)}
+        onOpenTask={() => setIsTaskAccordionExpanded(true)}
       />
     </div>
   );

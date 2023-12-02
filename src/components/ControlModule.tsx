@@ -6,6 +6,8 @@ import MenuItem from '@mui/material/MenuItem';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+
 
 interface FieldError {
   error: boolean;
@@ -15,13 +17,15 @@ interface FieldError {
 interface ControlModuleProps {
   expanded: boolean;
   onSubmit: (data: any, module: string) => void;
+  onOpenHazard: () => void;
+  onOpenTask: () => void; 
 }
 
 interface FieldErrors {
   [key: string]: FieldError;
 }
 
-const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onSubmit }): ReactElement => {
+const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onSubmit, onOpenHazard, onOpenTask }): ReactElement => {
   const [controlName, setControlName] = useState('');
   const [controlType, setControlType] = useState('');
   const [postLikelihood, setPostLikelihood] = useState('');
@@ -112,6 +116,7 @@ const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onSubmit }): Re
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
+    // Handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let isFormValid = true;
@@ -128,11 +133,10 @@ const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onSubmit }): Re
       onSubmit(state, 'controlModule');
       resetForm();
     }
-  };
+};
 
-  
-return (
  
+ return (
     <AccordionModule
       title="Control Information"
       onSubmit={handleSubmit} 
@@ -213,7 +217,15 @@ return (
         <Typography variant="caption" color="error">{fieldErrors.postConsequence.helperText}</Typography>
       </FormControl>
 
-  </AccordionModule>
-)};
+      <Button variant="contained" color="primary" onClick={onOpenHazard} style={{ margin: '10px 0' }}>
+        Rate New Hazard
+      </Button>
+      
+      <Button variant="contained" color="primary" onClick={onOpenTask} style={{ margin: '10px 0' }}>
+        Rate New Task
+      </Button>
+    </AccordionModule>
+  );
+};;
 
 export default ControlModule;

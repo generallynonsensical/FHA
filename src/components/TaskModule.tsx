@@ -71,26 +71,25 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onSubmit }) => {
 
 
 
-    // Handle form submission
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      console.log("Submitting form");
-    
-      let isFormValid = true;
-      const state = { taskName }
-    
-      const fieldsToValidate = ['taskName'];
-      fieldsToValidate.forEach((fieldName) => {
-        const fieldValue = getFieldValue(fieldName, state);
-        const isValid = validateField(fieldValue);
-        isFormValid = isFormValid && isValid;
-      });
-    
-      if (isFormValid) {
-        // Form submission logic here...
-        onSubmit(state, 'taskModule');
-        resetForm();
-      }
-    };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("Submitting form");
+    event.preventDefault();
+  
+    let isFormValid = true;
+    const state = { taskName };
+  
+    const fieldsToValidate: (keyof typeof state)[] = ['taskName'];
+    fieldsToValidate.forEach((fieldName) => {
+      const fieldValue = state[fieldName];
+      isFormValid = isFormValid && validateField(fieldValue);
+    });
+  
+    if (isFormValid) {
+      // Form submission logic here...
+      onSubmit(state, 'taskModule');
+      resetForm();
+    }
+  };
 
   return (
     <AccordionModule

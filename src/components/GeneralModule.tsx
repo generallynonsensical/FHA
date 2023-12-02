@@ -137,6 +137,7 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded,  onSubmit }): R
 
   // Handle form submission
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent the page from refreshing
     console.log("Submitting form");
 
     let isFormValid = true;

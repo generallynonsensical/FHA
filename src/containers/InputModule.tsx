@@ -14,15 +14,13 @@ interface InputModuleProps {
   setIsHazardAccordionExpanded: Dispatch<SetStateAction<boolean>>;
   isControlAccordionExpanded: boolean;
   setIsControlAccordionExpanded: Dispatch<SetStateAction<boolean>>;
-  handleSubmit: (module: string) => void;
-
+  handleSubmit: (data: any, module: string) => void;
 }
 
 
-// InputModule component
 const InputModule: React.FC<InputModuleProps> = ({
   isGeneralAccordionExpanded,
-  setIsGeneralAccordionExpanded,
+  setIsGeneralAccordionExpanded, // Add this line
   isTaskAccordionExpanded,
   setIsTaskAccordionExpanded,
   isHazardAccordionExpanded,
@@ -38,25 +36,35 @@ const InputModule: React.FC<InputModuleProps> = ({
     <div className="accordion-container">
       {/* Render the GeneralModule */}
       <GeneralModule 
-        expanded={isGeneralAccordionExpanded} 
-        onSubmit={() => handleSubmit('generalModule')}
+        expanded={isGeneralAccordionExpanded}
+        onSubmit={(data) => {
+          handleSubmit(data, 'generalModule');
+          setIsGeneralAccordionExpanded(!isGeneralAccordionExpanded);
+        }}
       />
-      
-      {/* Render the TaskModule */}
-      <TaskModule 
-        expanded={isTaskAccordionExpanded} 
-        onSubmit={() => handleSubmit('taskModule')}
-      />
-      {/* Render the HazardModule */}
-      <HazardModule 
-        expanded={isHazardAccordionExpanded} 
-        onSubmit={() => handleSubmit('hazardModule')}
-      />
-      {/* Render the ControlModule */}
-      <ControlModule 
-        expanded={isControlAccordionExpanded} 
 
-        onSubmit={() => handleSubmit('controlModule')}
+      <TaskModule 
+        expanded={isTaskAccordionExpanded}
+        onSubmit={(data) => {
+          handleSubmit(data, 'taskModule');
+          setIsTaskAccordionExpanded(!isTaskAccordionExpanded);
+        }}
+      />
+
+      <HazardModule 
+        expanded={isHazardAccordionExpanded}
+        onSubmit={(data) => {
+          handleSubmit(data, 'hazardModule');
+          setIsHazardAccordionExpanded(!isHazardAccordionExpanded);
+        }}
+      />
+
+      <ControlModule 
+        expanded={isControlAccordionExpanded}
+        onSubmit={(data) => {
+          handleSubmit(data, 'controlModule');
+          setIsControlAccordionExpanded(!isControlAccordionExpanded);
+        }}
         onOpenHazard={() => setIsHazardAccordionExpanded(true)}
         onOpenTask={() => setIsTaskAccordionExpanded(true)}
       />

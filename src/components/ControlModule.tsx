@@ -116,30 +116,20 @@ const ControlModule: React.FC<ControlModuleProps> = ({ expanded, onSubmit, onOpe
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
-    // Handle form submission
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    let isFormValid = true;
-    const state = { controlName, controlType, postLikelihood, postExposure, postConsequence };
-
-    const fieldsToValidate = ['controlName', 'controlType', 'postLikelihood', 'postExposure', 'postConsequence'];
-    fieldsToValidate.forEach((fieldName) => {
-      const fieldValue = (state as any)[fieldName];
-      validateField(fieldName, fieldValue);
-      isFormValid = isFormValid && !fieldErrors[fieldName].error;
-    });
-
-    if (isFormValid) {
-      onSubmit(state, 'controlModule');
+  useEffect(() => {
+    if (!expanded) {
       resetForm();
     }
-};
-
+  }, [expanded]);
  
  return (
     <AccordionModule
       title="Control Information"
-      onSubmit={handleSubmit} 
+      onSubmit={(event) => {
+        event.preventDefault(); // Prevent default form submission
+        const state = { controlName, controlType, postLikelihood, postExposure, postConsequence };
+        onSubmit(state, 'controlModule'); // Use the onSubmit prop for submission
+      }}
       buttonLabel="Submit Control"
       expanded={expanded}
     >

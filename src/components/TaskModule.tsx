@@ -14,16 +14,6 @@ interface FieldErrors {
   [key: string]: FieldError;
 }
 
-// Helper function to get a field's value based on its name
-const getFieldValue = (fieldName: string, state: any) => {
-  switch (fieldName) {
-    case 'taskName':
-      return state.taskName;
-
-    default:
-      return '';
-  }
-};
 
 // Define the props type for TaskModule
 interface TaskModuleProps {
@@ -58,46 +48,42 @@ const TaskModule: React.FC<TaskModuleProps> = ({ expanded, onSubmit }) => {
     validateField(newValue);
   };
 
-  // Reset the form
   const resetForm = () => {
     setTaskName('');
-    setFieldErrors({ taskName: { error: false, helperText: '' } });
+
+  
+    setFieldErrors({
+     taskName: { error: false, helperText: '' },
+      
+    });
   };
 
-   // useEffect to log field errors when they are updated
   useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
-
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    console.log("Submitting form");
-    event.preventDefault();
-  
-    let isFormValid = true;
-    const state = { taskName };
-  
-    const fieldsToValidate: (keyof typeof state)[] = ['taskName'];
-    fieldsToValidate.forEach((fieldName) => {
-      const fieldValue = state[fieldName];
-      isFormValid = isFormValid && validateField(fieldValue);
-    });
-  
-    if (isFormValid) {
-      // Form submission logic here...
-      onSubmit(state, 'taskModule');
+  useEffect(() => {
+    if (!expanded) {
       resetForm();
     }
-  };
+  }, [expanded]);
+
+  useEffect(() => {
+    if (expanded) {
+      validateField(taskName);
+    }
+  }, [expanded]);
 
   return (
     <AccordionModule
       title="Task Information"
-      onSubmit={handleSubmit}
-      buttonLabel="Submit Task"
+      onSubmit={(event) => {
+        event.preventDefault(); // Prevent default form submission
+        const state = { taskName };
+        onSubmit(state, 'taskModule'); // Use the onSubmit prop for submission
+      }}
+      buttonLabel="Submit"
       expanded={expanded}
- 
     >
       {/* Task Name input field */}
       <TextField

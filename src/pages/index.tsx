@@ -25,7 +25,7 @@ const App: React.FC = () => {
           setIsHazardAccordionExpanded={() => {}}
           isControlAccordionExpanded={false}
           setIsControlAccordionExpanded={() => {}}
-          handleSubmit={handleSubmit} // Pass the handleSubmit function as a prop
+          handleSubmit={handleSubmit} 
         />
       </div>
 

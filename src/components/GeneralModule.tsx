@@ -17,21 +17,6 @@ interface GeneralModuleProps {
   onSubmit: (data: any, module: string) => void;
 }
 
-// Helper function to get a field's value based on its name
-const getFieldValue = (fieldName: string, state: any) => {
-  switch (fieldName) {
-    case 'createdBy':
-      return state.createdBy;
-    case 'dateCreated':
-      return state.dateCreated ? state.dateCreated.toString() : '';
-    case 'companyName':
-      return state.companyName;
-    case 'positionEvaluated':
-      return state.positionEvaluated;
-    default:
-      return '';
-  }
-};
 
 // GeneralModule component
 const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded,  onSubmit }): ReactElement => {
@@ -112,14 +97,12 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded,  onSubmit }): R
     validateField('positionEvaluated', newValue);
   };
 
-  // Reset the form
   const resetForm = () => {
-    console.log("Resetting form");
     setCreatedBy('');
-    setDateCreated(dayjs(new Date()));
+    // Do not reset dateCreated
     setCompanyName('');
     setPositionEvaluated('');
-
+  
     setFieldErrors({
       createdBy: { error: false, helperText: '' },
       dateCreated: { error: false, helperText: '' },
@@ -128,40 +111,29 @@ const GeneralModule: React.FC<GeneralModuleProps> = ({ expanded,  onSubmit }): R
     });
   };
 
-  // useEffect to log field errors when they are updated
   useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
- 
-
-  // Handle form submission
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent the page from refreshing
-    console.log("Submitting form");
-
-    let isFormValid = true;
-    const state = { createdBy, dateCreated, companyName, positionEvaluated };
-
-    const fieldsToValidate = ['createdBy', 'dateCreated', 'companyName', 'positionEvaluated'];
-    fieldsToValidate.forEach((fieldName) => {
-      const fieldValue = getFieldValue(fieldName, state);
-      validateField(fieldName, fieldValue, (isValid) => {
-        isFormValid = isFormValid && isValid;
-      });
-    });
-
-    if (isFormValid) {
-      // Form submission logic here...
-      onSubmit(state, 'generalModule');
+  useEffect(() => {
+    if (!expanded) {
       resetForm();
     }
-  };
+  }, [expanded]);
+ 
 
+  
   return (
     <AccordionModule
       title="General Information"
-      onSubmit={handleSubmit}
+      onSubmit={(event) => {
+        event.preventDefault(); // Prevent default form submission
+        const state = { createdBy, dateCreated, companyName, positionEvaluated };
+        console.log('Submitting form with state:', state); // Add this line
+
+        onSubmit(state, 'generalModule'); // Use the onSubmit prop for submission
+        resetForm();
+      }}
       buttonLabel="Submit"
       expanded={expanded}
     >

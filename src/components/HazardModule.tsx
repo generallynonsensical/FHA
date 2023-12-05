@@ -19,23 +19,6 @@ interface HazardModuleProps {
   onSubmit: (data: any, module: string) => void;
 }
 
-// Helper function to get a field's value based on its name
-const getFieldValue = (fieldName: string, state: any) => {
-  switch (fieldName) {
-    case 'hazardName':
-      return state.hazardName;
-    case 'hazardType':
-      return state.hazardType;
-    case 'preLikelihood':
-      return state.preLikelihood;
-    case 'preExposure':
-      return state.preExposure;
-    case 'preConsequence':
-      return state.preConsequence;
-    default:
-      return '';
-  }
-};
 
 // HazardModule component
 const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onSubmit }): ReactElement => {
@@ -121,15 +104,13 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onSubmit }): Reac
     validateField('preConsequence', newPreConsequence);
   };
 
-  // Reset the form
   const resetForm = () => {
-    console.log("Resetting form");
     setHazardName('');
     setHazardType('');
     setPreLikelihood('');
     setPreExposure('');
     setPreConsequence('');
-
+  
     setFieldErrors({
       hazardName: { error: false, helperText: '' },
       hazardType: { error: false, helperText: '' },
@@ -139,40 +120,25 @@ const HazardModule: React.FC<HazardModuleProps> = ({ expanded, onSubmit }): Reac
     });
   };
 
-  // useEffect to log field errors when they are updated
   useEffect(() => {
     console.log("Field errors updated:", fieldErrors);
   }, [fieldErrors]);
 
-
-
-  // Handle form submission
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Submitting form");
-
-    let isFormValid = true;
-    const state = { hazardName, hazardType, preLikelihood, preExposure, preConsequence };
-
-    const fieldsToValidate = ['hazardName', 'hazardType', 'preLikelihood', 'preExposure', 'preConsequence'];
-    fieldsToValidate.forEach((fieldName) => {
-      const fieldValue = getFieldValue(fieldName, state);
-      validateField(fieldName, fieldValue, (isValid) => {
-        isFormValid = isFormValid && isValid;
-      });
-    });
-
-    if (isFormValid) {
-      // Form submission logic here...
-      onSubmit(state, 'hazardModule');
+  useEffect(() => {
+    if (!expanded) {
       resetForm();
     }
-  };
+  }, [expanded]);
+ 
 
   return (
     <AccordionModule
       title="Hazard Information"
-      onSubmit={handleSubmit}
+      onSubmit={(event) => {
+        event.preventDefault(); // Prevent default form submission
+        const state = { hazardName, hazardType, preLikelihood, preExposure, preConsequence };
+        onSubmit(state, 'hazardModule'); // Use the onSubmit prop for submission
+      }}
       buttonLabel="Submit Hazard"
       expanded={expanded}
 

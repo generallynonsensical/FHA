@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactElement } from 'react';
-import AccordionModule from './AccordionModule';
+import AccordionModule from './Accordion';
 import TextField from '@mui/material/TextField';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

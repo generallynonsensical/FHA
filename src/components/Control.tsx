@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactElement } from 'react';
-import AccordionModule from './AccordionModule';
+import AccordionModule from './Accordion';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';

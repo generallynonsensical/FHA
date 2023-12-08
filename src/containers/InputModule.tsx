@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import GeneralModule from '@/components/GeneralModule';
-import TaskModule from '@/components/TaskModule';
-import HazardModule from '@/components/HazardModule';
-import ControlModule from '@/components/ControlModule';
+import GeneralModule from '@/components/General';
+import TaskModule from '@/components/Task';
+import HazardModule from '@/components/Hazard';
+import ControlModule from '@/components/Control';
 
 // Define the props type for InputModule
 interface InputModuleProps {

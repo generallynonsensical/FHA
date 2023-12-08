@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import InputModule from '../containers/InputModule';
+import InputModule from '../input/InputModule';
 
 const DataController: React.FC = () => {
     const [isGeneralAccordionExpanded, setGeneralAccordionExpanded] = useState(true);

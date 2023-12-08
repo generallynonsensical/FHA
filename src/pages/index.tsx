@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import InputModule from '../containers/InputModule';
-import OutputModule from '../containers/OutputModule';
+import InputModule from '../components/input/InputModule';
+import OutputModule from '../components/output/OutputModule';
 
 // Define the main App component
 const App: React.FC = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import TableModule from '../components/Table';
+import TableModule from './Table';
 
 // Define the OutputModule component
 const OutputModule: React.FC = () => {
